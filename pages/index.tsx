@@ -187,7 +187,7 @@ export default function Home() {
 
       <main>
         <header className="newTitle" id="title">
-          <h1>
+          <h1 className="text-xl font-bold">
             <span className="theBetterTitle">The Better</span>
             <br />
             <span className="catanTitle">Catan Board</span>
@@ -282,7 +282,7 @@ export default function Home() {
         </section>
 
         <section id="popmenu" className="menuToggle">
-          <h2>Generation Custom Rules</h2>
+          <h2 className="text-[25px] font-bold">Generation Custom Rules</h2>
           <br />
           {/* <div className="settingswrap">
             <input id="selected-map" type="hidden" value="normal" />

@@ -8,21 +8,20 @@ interface Props {
   offset: { left: number; top: number };
 }
 
-const probs = [
-  "",
-  "",
-  ".",
-  "..",
-  "...",
-  "....",
-  ".....",
-  "",
-  ".....",
-  "....",
-  "...",
-  "..",
-  ".",
-];
+const probs: {
+  [key: number]: number;
+} = {
+  2: 1,
+  3: 2,
+  4: 3,
+  5: 4,
+  6: 5,
+  8: 5,
+  9: 4,
+  10: 3,
+  11: 2,
+  12: 1,
+};
 
 export default function Tile({ num, resource, mode, offset }: Props) {
   return (
@@ -45,7 +44,7 @@ export default function Tile({ num, resource, mode, offset }: Props) {
       {resource !== "desert" && (
         <div
           className={clsx(
-            "absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 h-[calc(40%*1.73205/2)] w-[40%] border border-black bg-[#E3C586] rounded-full flex items-center justify-around",
+            "absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 h-[calc(45%*1.73205/2)] w-[45%] border-gray-600 bg-[#E3C586] rounded-full flex flex-col items-center justify-center anashe",
             {
               hidden: resource === "desert",
             },
@@ -55,10 +54,19 @@ export default function Tile({ num, resource, mode, offset }: Props) {
             }
           )}
         >
-          <p className="font-bantiqua font-bold text-[4.5vh]">{num}</p>
-          <span className="prob-dots-base small-font-size-wrap">
-            {probs[num]}
-          </span>
+          <p
+            className={clsx(
+              "font-bantiqua font-bold !leading-3 mt-1",
+              num >= 10 ? "text-[3.8vw] md:text-3xl" : "text-[4vw] md:text-4xl"
+            )}
+          >
+            {num}
+          </p>
+          <div className="text-[3vw] md:text-[1.6rem] !leading-3">
+            {Array.from({ length: probs[num] }).map((_, index) => (
+              <span key={index}>.</span>
+            ))}
+          </div>
         </div>
       )}
     </div>
