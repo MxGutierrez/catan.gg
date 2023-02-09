@@ -21,10 +21,7 @@
   margin: 0;
 }
 
-.anashe {
-  /* box-shadow: -1px 10px 26px -10px rgba(0, 0, 0, 0.84);
-  -webkit-box-shadow: -1px 10px 26px -10px rgba(0, 0, 0, 0.84);
-  -moz-box-shadow: -1px 10px 26px -10px rgba(0, 0, 0, 0.84); */
+.tile {
   box-shadow: -1px 10px 19px -7px rgba(0, 0, 0, 0.74);
   -webkit-box-shadow: -1px 10px 19px -7px rgba(0, 0, 0, 0.74);
   -moz-box-shadow: -1px 10px 19px -7px rgba(0, 0, 0, 0.74);
@@ -164,33 +161,9 @@ body {
 
 html,
 body {
-  margin: 0;
-  padding: 0;
   height: 100vh;
   height: calc(var(--vh, 1vh) * 100);
-  background: #fffaed;
-}
-
-.newTitle {
-  text-align: center;
-  top: 0;
-}
-
-.myNav {
-  width: 100%;
-}
-
-.myNav ul {
-  list-style: none;
-  display: inline;
-  text-align: center;
-  margin: 0;
-  padding: 0;
-}
-
-.myLi {
-  display: inline;
-  margin: 0 2px;
+  /* background: #fffaed; */
 }
 
 .normalBorderCommon {

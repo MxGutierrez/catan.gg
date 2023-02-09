@@ -44,7 +44,7 @@ export default function Tile({ num, resource, mode, offset }: Props) {
       {resource !== "desert" && (
         <div
           className={clsx(
-            "absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 h-[calc(45%*1.73205/2)] w-[45%] border-gray-600 bg-[#E3C586] rounded-full flex flex-col items-center justify-center anashe",
+            "absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 h-[calc(45%*1.73205/2)] w-[45%] border-gray-600 bg-[#f5dba3] rounded-full flex flex-col items-center justify-center tile",
             {
               hidden: resource === "desert",
             },

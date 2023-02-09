@@ -185,7 +185,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main>
+      <main className="">
         <header className="newTitle" id="title">
           <h1 className="text-xl font-bold">
             <span className="theBetterTitle">The Better</span>
@@ -249,19 +249,15 @@ export default function Home() {
                 onclick="toggleOptions()"
               >
                 Options
-              </button>
-              <button
-                type="button"
-                className="commonShuffle"
-                onclick="generateBoard()"
-              >
-                Shuffle
               </button> */}
+              <button type="button" onClick={generateBoard}>
+                Shuffle
+              </button>
             </section>
           </section>
         </header>
 
-        <section className="commonNormalBoard board relative" id="board">
+        <section className="relative" id="board">
           {board.length > 0 && offsets.length > 0 && (
             <>
               <div
@@ -281,10 +277,10 @@ export default function Home() {
           )}
         </section>
 
-        <section id="popmenu" className="menuToggle">
+        {/* <section id="popmenu" className="menuToggle">
           <h2 className="text-[25px] font-bold">Generation Custom Rules</h2>
           <br />
-          {/* <div className="settingswrap">
+          <div className="settingswrap">
             <input id="selected-map" type="hidden" value="normal" />
             <div className="menu-row">
               <label className="mylabel">6 & 8 Can Touch</label>
@@ -329,8 +325,8 @@ export default function Home() {
             >
               Close Options
             </button>
-          </div> */}
-        </section>
+          </div>
+        </section> */}
       </main>
     </>
   );
