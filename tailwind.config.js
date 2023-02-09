@@ -6,6 +6,9 @@ module.exports = {
     "./components/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
+    fontFamily: {
+      bantiqua: ["Book Antiqua", "sans-serif"],
+    },
     extend: {},
   },
   plugins: [],

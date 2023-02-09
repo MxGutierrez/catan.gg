@@ -2,6 +2,19 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+  font-family: "Book Antiqua";
+  src: url("/fonts/Book-Antiqua.ttf");
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Book Antiqua";
+  src: url("/fonts/Book-Antiqua-Bold.ttf");
+  font-weight: 700;
+  font-display: swap;
+}
+
 * {
   box-sizing: border-box;
   padding: 0;
@@ -243,18 +256,6 @@ h2 {
   margin-bottom: 0;
 }
 
-.chit-number-base {
-  display: block;
-  font-weight: bold;
-  font-size: 1.18em;
-  padding: 0;
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  font-family: "Teko", sans-serif;
-}
-
 .prob-dots-base {
   padding: 0;
   margin: 0;
@@ -276,16 +277,6 @@ h2 {
   left: 10%;
 }
 
-.hex-normal {
-  height: 17.5%;
-  width: calc(17.5% * 0.866);
-  background: rgb(71, 70, 70);
-  position: absolute;
-  transform: translate(-50%, -50%);
-  background-size: auto 100%;
-  background-repeat: no-repeat;
-}
-
 .hex-base {
   -webkit-clip-path: polygon(
     50% 0%,
@@ -296,94 +287,6 @@ h2 {
     0% 25%
   );
   clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
-}
-
-.hex-expanded {
-  height: 16%;
-  width: calc(16% * 0.866);
-  background: rgb(71, 70, 70);
-  position: absolute;
-  transform-origin: 50% 50%;
-  transform: translate(-50%, -50%) rotate(90deg);
-  background-size: auto 100%;
-  background-repeat: no-repeat;
-}
-
-.circle-base {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  height: calc(40% * 1.73205 / 2);
-  width: 40%;
-  border: 1px solid black;
-  background: rgb(227, 197, 134);
-  border-radius: 50%;
-}
-
-.circle-normal {
-}
-
-.circle-expanded {
-  transform: translate(-50%, -50%) rotate(-90deg);
-}
-
-.high-prob {
-  color: red;
-}
-
-.high-prob-normal {
-  color: red;
-}
-
-/* .theBetterTitle {
-  font-size: 5px;
-  padding: 0;
-  margin: 0;
-}
-
-.catanTitle {
-  font-size: 5px;
-  padding: 0;
-  margin: 0;
-}
-
-.generatorTitle {
-  font-size: 5px;
-  padding: 0;
-  margin: 0;
-} */
-
-/* mess with tile width calc or no repeat on the tiles */
-
-.sheep {
-  background: url(/images/sheep.png) no-repeat center;
-  background-size: 99% 99%;
-}
-
-.wheat {
-  background: url(/images/wheat.png) no-repeat center;
-  background-size: 99% 99%;
-}
-
-.wood {
-  background: url(/images/wood.png) no-repeat center;
-  background-size: 99% 99%;
-}
-
-.brick {
-  background: url(/images/brick.png) no-repeat center;
-  background-size: 99% 99%;
-}
-
-.ore {
-  background: url(/images/ore.png) no-repeat center;
-  background-size: 99% 99%;
-}
-
-.desert {
-  background: url(/images/desert.png) no-repeat center;
-  background-size: 99% 99%;
 }
 
 .port {
@@ -397,11 +300,6 @@ h2 {
   width: 6vw;
   background-size: auto 100%;
   background-repeat: no-repeat;
-}
-
-.desert-chit {
-  background: transparent;
-  border: transparent;
 }
 
 .donatebutton {
@@ -509,10 +407,6 @@ input[type="checkbox"] {
     /* background: red; */
     left: 0;
     position: relative;
-  }
-
-  .font-size-wrap {
-    font-size: 4.5vh;
   }
 
   .small-font-size-wrap {

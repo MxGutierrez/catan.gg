@@ -4,6 +4,7 @@ import { Inter } from "@next/font/google";
 import styles from "@/styles/Home.module.css";
 import { useEffect, useMemo, useState } from "react";
 import clsx from "clsx";
+import Tile from "@/components/Tile";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -66,22 +67,6 @@ const expansionNums = [
   11, 11, 12, 12,
 ];
 
-const probs = [
-  "",
-  "",
-  ".",
-  "..",
-  "...",
-  "....",
-  ".....",
-  "",
-  ".....",
-  "....",
-  "...",
-  "..",
-  ".",
-];
-
 function shuffle(array: any[]) {
   let currentIndex = array.length,
     temporaryValue,
@@ -103,8 +88,6 @@ interface Tile {
   resource: string;
   num: number;
 }
-
-type Mode = "normal" | "expanded";
 
 export default function Home() {
   const [board, setBoard] = useState<Tile[]>([]);
@@ -278,58 +261,24 @@ export default function Home() {
           </section>
         </header>
 
-        <section className="commonNormalBoard board" id="board">
-          {board.length > 0 &&
-            offsets.length > 0 &&
-            board.map((tile, index) => {
-              return (
-                <div
-                  className={clsx("hex-base", `hex-${mode}`, tile.resource, {
-                    "high-prob": tile.num === 6 || tile.num === 8,
-                  })}
+        <section className="commonNormalBoard board relative" id="board">
+          {board.length > 0 && offsets.length > 0 && (
+            <>
+              <div
+                className={clsx(`${mode}BorderCommon`, `border-${mode}`)}
+              ></div>
+              {board.map((tile, index) => (
+                <Tile
                   key={index}
-                  id={`tile-${index}`}
-                  style={{
-                    left: `${offsets[index].left}%`,
-                    top: `${offsets[index].top}%`,
-                  }}
-                >
-                  {/* <div className="resource">
-                    <img
-                      src={`/images/${tile.resource}.png`}
-                      alt={tile.resource}
-                    />
-                  </div> */}
-                  <div
-                    id={`circle-${index}`}
-                    className={clsx(
-                      "chit-number-base circle-base font-size-wrap",
-                      `tile-chit-${mode}`,
-                      `circle-${mode}`,
-                      {
-                        "desert-chit": tile.resource === "desert",
-                      }
-                    )}
-                  >
-                    {tile.resource !== "desert" && (
-                      <>
-                        <div
-                          className={clsx(
-                            "chit-number-base",
-                            `tile-chit-${mode}`
-                          )}
-                        >
-                          {tile.num}
-                        </div>
-                        <div className="prob-dots-base small-font-size-wrap">
-                          {probs[tile.num]}
-                        </div>
-                      </>
-                    )}
-                  </div>
-                </div>
-              );
-            })}
+                  num={tile.num}
+                  resource={tile.resource}
+                  offset={{ ...offsets[index] }}
+                  mode={mode}
+                  index={index}
+                />
+              ))}
+            </>
+          )}
         </section>
 
         <section id="popmenu" className="menuToggle">
