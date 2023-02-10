@@ -166,18 +166,6 @@ body {
   /* background: #fffaed; */
 }
 
-.normalBorderCommon {
-  position: absolute;
-  left: 50%;
-  overflow: hidden;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  overflow-x: hidden;
-  background: url(/images/background.png);
-  background-size: 100% 100%;
-  background-repeat: no-repeat;
-}
-
 .commonShuffle {
   position: relative;
   font-size: 20px;
@@ -288,38 +276,16 @@ input[type="checkbox"] {
   position: relative;
 }
 
-@media all and (orientation: landscape) {
-  #board {
-    width: 100vh;
-    height: 100vh;
-    right: 0;
-    top: 0;
-    position: absolute;
-  }
-
+@media all and (min-width: 768px) {
   #title {
     min-height: 35%;
     width: calc(100vw - 100vh);
     left: 0;
     position: relative;
   }
-
-  .border-normal {
-    width: 99vh;
-    height: calc(99vh * 1.732050808 / 2);
-  }
 }
 
-@media all and (orientation: portrait) {
-  #board {
-    width: 100vw;
-    height: 100vw;
-    left: 50%;
-    transform: translate(-50%, 0);
-
-    position: relative;
-  }
-
+@media all and (max-width: 767px) {
   #classic-options {
     position: relative;
     width: 100%;
@@ -328,14 +294,5 @@ input[type="checkbox"] {
   #title {
     min-height: 15%;
     position: relative;
-  }
-
-  .font-size-wrap {
-    font-size: 4.5vw;
-  }
-
-  .border-normal {
-    width: 99vw;
-    height: calc(99vw * 1.732050808 / 2);
   }
 }

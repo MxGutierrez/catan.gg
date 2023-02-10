@@ -130,14 +130,13 @@ export default function Home() {
 
   console.log(board, offsets);
 
-  const generateOffsets = (e: number, mode: Mode) => {
-    let r = 0.866 * e,
-      s = e,
-      a = [];
+  const generateOffsets = (size: number, mode: Mode) => {
+    let r = 0.866025404 * size;
+    const offsets = [];
 
     const board = {
       tiles_per_row: [3, 4, 5, 4, 3],
-      row_step: 0.73 * s,
+      row_step: 0.73 * size,
       center_row: Math.floor([3, 4, 5, 4, 3].length / 2),
       cell_step: 0.99 * r,
     };
@@ -145,27 +144,27 @@ export default function Home() {
     if (mode === "expanded") {
       board.tiles_per_row = [1, 2, 3, 4, 3, 4, 3, 4, 3, 2, 1];
       board.center_row = Math.floor(board.tiles_per_row.length / 2);
-      board.cell_step = 1.51 * s * 0.99;
+      board.cell_step = 1.51 * size * 0.99;
       board.row_step = r / 1.99;
     }
 
-    for (let e = 0; e < board.tiles_per_row.length; e++) {
-      var o = e,
-        d = board;
+    for (let i = 0; i < board.tiles_per_row.length; i++) {
+      const rowLevel = i - board.center_row;
+      const y = 50 + rowLevel * board.row_step;
+      const xIsEvenShift = ((i % 2) * board.cell_step) / 2;
+      // const xIsEvenShift = 0;
+      const xFirstCellShift =
+        Math.floor(board.tiles_per_row[i] / 2) * board.cell_step;
+      // const xFirstCellShift = 0;
 
-      const rowLevel = o - Number(d.center_row);
-      const y = 50 + rowLevel * d.row_step;
-      const xIsEvenShift = ((o % 2) * d.cell_step) / 2;
-      const xFirstCellShift = Math.floor(d.tiles_per_row[o] / 2) * d.cell_step;
-
-      for (let e = 0; e < d.tiles_per_row[o]; e++) {
-        a.push({
-          left: 50 - xFirstCellShift + xIsEvenShift + e * d.cell_step,
+      for (let e = 0; e < board.tiles_per_row[i]; e++) {
+        offsets.push({
+          left: 50 - xFirstCellShift + xIsEvenShift + e * board.cell_step,
           top: y,
         });
       }
     }
-    return a;
+    return offsets;
   };
 
   useEffect(() => {
@@ -185,7 +184,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className="">
+      <main className="md:flex">
         <header className="newTitle" id="title">
           <h1 className="text-xl font-bold">
             <span className="theBetterTitle">The Better</span>
@@ -257,12 +256,18 @@ export default function Home() {
           </section>
         </header>
 
-        <section className="relative" id="board">
+        <section className="relative w-screen h-[100vw] md:h-screen md:w-[100vh] flex items-center justify-center">
           {board.length > 0 && offsets.length > 0 && (
-            <>
-              <div
-                className={clsx(`${mode}BorderCommon`, `border-${mode}`)}
-              ></div>
+            <div>
+              {mode === "normal" && (
+                <picture>
+                  <img
+                    className="w-[99vw] h-[calc(99vw*0.866025404)] md:w-[99vh] md:h-[calc(99vh*0.866025404)]"
+                    src="/images/background.png"
+                    alt="board background"
+                  />
+                </picture>
+              )}
               {board.map((tile, index) => (
                 <Tile
                   key={index}
@@ -273,7 +278,7 @@ export default function Home() {
                   index={index}
                 />
               ))}
-            </>
+            </div>
           )}
         </section>
 
