@@ -185,14 +185,8 @@ export default function Home() {
       </Head>
 
       <main className="md:flex">
-        <header className="newTitle" id="title">
-          <h1 className="text-xl font-bold">
-            <span className="theBetterTitle">The Better</span>
-            <br />
-            <span className="catanTitle">Catan Board</span>
-            <br />
-            <span className="generatorTitle">Generator</span>
-          </h1>
+        <header className="newTitle p-6 !pb-0" id="title">
+          <h1 className="text-xl font-bold">The Best Catan Board Generator</h1>
           {/* <nav className="myNav">
             <ul>
               <li className="myLi">

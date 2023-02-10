@@ -27,7 +27,7 @@ export default function Tile({ num, resource, mode, offset }: Props) {
   return (
     <div
       className={clsx(
-        "hex-base absolute bg-no-repeat -translate-x-1/2 -translate-y-1/2 bg-[length:99%_99%]",
+        "hex-base absolute bg-no-repeat -translate-x-1/2 -translate-y-1/2 bg-[length:99%_99%] flex items-center justify-center",
         {
           "text-red-600": num === 6 || num === 8,
         },
@@ -44,13 +44,12 @@ export default function Tile({ num, resource, mode, offset }: Props) {
       {resource !== "desert" && (
         <div
           className={clsx(
-            "absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 h-[calc(45%*1.73205/2)] w-[45%] border-gray-600 bg-[#f5dba3] rounded-full flex flex-col items-center justify-center tile",
+            "h-[calc(45%*1.73205/2)] w-[45%] border-gray-600 bg-[#f5dba3] rounded-full flex flex-col items-center justify-center tile",
             {
               hidden: resource === "desert",
             },
             {
-              "-translate-x-1/2 -translate-y-1/2 -rotate-90":
-                mode === "expanded",
+              "-rotate-90": mode === "expanded",
             }
           )}
         >
