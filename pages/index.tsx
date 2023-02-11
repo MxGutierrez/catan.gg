@@ -182,51 +182,53 @@ export default function Home() {
       </Head>
 
       <main className="md:flex container">
-        <section className="p-3 md:p-6 !pb-0 xl:!px-10 md:bg-[#F6F7F9] flex flex-col md:max-w-[600px]">
-          <h1 className="text-3xl lg:text-4xl font-semibold mt-4">
-            Awesome Catan Board Generator
-          </h1>
-          <p className="md:text-lg font-thin my-5">
-            Generate Settlers of Catan boards with this Awesome Catan Board
-            Generator. With just one click, generate boards for both Classic or
-            Expansion Pack.
-          </p>
+        <section className="md:bg-[#F6F7F9] flex flex-col md:max-w-[600px] md:rounded-r-2xl overflow-hidden">
+          <div className="p-3 md:p-6 !pb-0 mb-8 md:mb-0 xl:!px-10 bg-[#F6F7F9] rounded-b-xl mb:rounded-none">
+            <h1 className="text-3xl lg:text-4xl font-semibold mt-4">
+              Awesome Catan Board Generator
+            </h1>
+            <p className="md:text-lg font-thin my-5">
+              Generate Settlers of Catan boards with this Awesome Catan Board
+              Generator. With just one click, generate boards for both Classic
+              or Expansion Pack.
+            </p>
 
-          <div className="rounded-lg flex items-center mb-4 space-x-3">
-            <button
-              onClick={() => setMode("normal")}
-              className={clsx(
-                "flex-1 py-2 rounded-lg border",
-                mode === "normal"
-                  ? "bg-gray-300 border-gray-300"
-                  : "border-gray-400 hover:opacity-70"
-              )}
-            >
-              Classic
-            </button>
+            <div className="rounded-lg flex items-center mb-4 space-x-3">
+              <button
+                onClick={() => setMode("normal")}
+                className={clsx(
+                  "flex-1 py-2 rounded-lg border",
+                  mode === "normal"
+                    ? "bg-gray-300 border-gray-300"
+                    : "border-gray-400 hover:opacity-70"
+                )}
+              >
+                Classic
+              </button>
 
-            <button
-              onClick={() => setMode("expanded")}
-              className={clsx(
-                "flex-1 py-2 rounded-lg border",
-                mode === "expanded"
-                  ? "bg-gray-300 border-gray-300"
-                  : "border-gray-400 hover:opacity-70"
-              )}
+              <button
+                onClick={() => setMode("expanded")}
+                className={clsx(
+                  "flex-1 py-2 rounded-lg border",
+                  mode === "expanded"
+                    ? "bg-gray-300 border-gray-300"
+                    : "border-gray-400 hover:opacity-70"
+                )}
+              >
+                Expansion
+              </button>
+            </div>
+
+            <Button
+              onClick={generateBoard}
+              className="flex items-center justify-center space-x-2 w-full mb-5"
             >
-              Expansion
-            </button>
+              <BiShuffle className="text-xl" />
+              <span>Shuffle</span>
+            </Button>
           </div>
 
-          <Button
-            onClick={generateBoard}
-            className="flex items-center justify-center space-x-2 w-full mb-5"
-          >
-            <BiShuffle className="text-xl" />
-            <span>Shuffle</span>
-          </Button>
-
-          <div className="flex items-center justify-center w-full flex-1">
+          <div className="flex items-center justify-center w-full flex-1 px-3 md:px-6">
             <div className="w-full flex items-center justify-center">
               {/* <h2 className="text-lg font-bold mb-2">Resource abundancy</h2> */}
               <ResourceGraph board={board} />
