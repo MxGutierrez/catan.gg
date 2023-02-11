@@ -26,11 +26,11 @@ interface Props {
 }
 
 const images = [
-  "/images/wood-resource.png",
-  "/images/brick-resource.png",
-  "/images/sheep-resource.png",
-  "/images/wheat-resource.png",
-  "/images/ore-resource.png",
+  "/images/wood-resource.webp",
+  "/images/brick-resource.webp",
+  "/images/sheep-resource.webp",
+  "/images/wheat-resource.webp",
+  "/images/ore-resource.webp",
 ];
 
 export default function ResourceGraph({ board }: Props) {
@@ -73,7 +73,6 @@ export default function ResourceGraph({ board }: Props) {
   }, [board]);
 
   return (
-    // <div className="relative max-w-[500px] w-full flex items-center justify-center">
     <Bar
       height={200}
       options={{
@@ -132,6 +131,5 @@ export default function ResourceGraph({ board }: Props) {
         },
       ]}
     />
-    // </div>
   );
 }
