@@ -51,41 +51,41 @@ Resources:
         Comment: Rewrites sub-directory path with trailing /index.html
         Runtime: cloudfront-js-1.0
 
-  # CloudfrontAddCacheControlFunction:
-  #   Type: AWS::CloudFront::Function
-  #   Properties:
-  #     Name: catan-cloudfront-add-cache-control
-  #     AutoPublish: true
-  #     FunctionCode: |
-  #       function handler(event) {
-  #         var response = event.response;
-  #         var headers = response.headers;
+  CloudfrontAddCacheControlFunction:
+    Type: AWS::CloudFront::Function
+    Properties:
+      Name: catan-cloudfront-add-cache-control
+      AutoPublish: true
+      FunctionCode: |
+        function handler(event) {
+          var response = event.response;
+          var headers = response.headers;
 
-  #         headers['cache-control'] = {value: 'public, max-age=604800, must-revalidate'};
+          headers['cache-control'] = {value: 'public, max-age=604800, must-revalidate'};
 
-  #         return response;
-  #       }
-  #     FunctionConfig:
-  #       Comment: Add cache control header to viewer-response
-  #       Runtime: cloudfront-js-1.0
+          return response;
+        }
+      FunctionConfig:
+        Comment: Add cache control header to viewer-response
+        Runtime: cloudfront-js-1.0
 
-  # CloudfrontAddImmutableCacheControlFunction:
-  #   Type: AWS::CloudFront::Function
-  #   Properties:
-  #     Name: ca-cloudfront-add-immutable-cache-control
-  #     AutoPublish: true
-  #     FunctionCode: |
-  #       function handler(event) {
-  #         var response = event.response;
-  #         var headers = response.headers;
+  CloudfrontAddImmutableCacheControlFunction:
+    Type: AWS::CloudFront::Function
+    Properties:
+      Name: catan-cloudfront-add-immutable-cache-control
+      AutoPublish: true
+      FunctionCode: |
+        function handler(event) {
+          var response = event.response;
+          var headers = response.headers;
 
-  #         headers['cache-control'] = {value: 'public, max-age=31536000, immutable'};
+          headers['cache-control'] = {value: 'public, max-age=31536000, immutable'};
 
-  #         return response;
-  #       }
-  #     FunctionConfig:
-  #       Comment: Add immutable cache control header to viewer-response
-  #       Runtime: cloudfront-js-1.0
+          return response;
+        }
+      FunctionConfig:
+        Comment: Add immutable cache control header to viewer-response
+        Runtime: cloudfront-js-1.0
 
   Cloudfront:
     Type: AWS::CloudFront::Distribution
@@ -102,27 +102,27 @@ Resources:
               OriginAccessIdentity: !Sub origin-access-identity/cloudfront/${CloudfrontOAI}
         DefaultCacheBehavior:
           ViewerProtocolPolicy: redirect-to-https
-          # CachePolicyId: 658327ea-f89d-4fab-a63d-7e88639e58f6 # Managed-CachingOptimized
-          CachePolicyId: 4135ea2d-6df8-44a3-9df3-4b5a84be39ad # Managed-CachingDisabled
+          CachePolicyId: 658327ea-f89d-4fab-a63d-7e88639e58f6 # Managed-CachingOptimized
+          # CachePolicyId: 4135ea2d-6df8-44a3-9df3-4b5a84be39ad # Managed-CachingDisabled
           TargetOriginId: AssetsBucket
           FunctionAssociations:
             - EventType: viewer-request
               FunctionARN: !GetAtt CloudfrontRewriteRequestFunction.FunctionMetadata.FunctionARN
-        # CacheBehaviors:
-        #   - PathPattern: _next/static/*
-        #     ViewerProtocolPolicy: redirect-to-https
-        #     CachePolicyId: 658327ea-f89d-4fab-a63d-7e88639e58f6
-        #     TargetOriginId: AssetsBucket
-        #     FunctionAssociations:
-        #       - EventType: viewer-response
-        #         FunctionARN: !GetAtt CloudfrontAddImmutableCacheControlFunction.FunctionMetadata.FunctionARN
-        #   - PathPattern: images/*
-        #     ViewerProtocolPolicy: redirect-to-https
-        #     CachePolicyId: 658327ea-f89d-4fab-a63d-7e88639e58f6
-        #     TargetOriginId: AssetsBucket
-        #     FunctionAssociations:
-        #       - EventType: viewer-response
-        #         FunctionARN: !GetAtt CloudfrontAddCacheControlFunction.FunctionMetadata.FunctionARN
+        CacheBehaviors:
+          - PathPattern: _next/static/*
+            ViewerProtocolPolicy: redirect-to-https
+            CachePolicyId: 658327ea-f89d-4fab-a63d-7e88639e58f6
+            TargetOriginId: AssetsBucket
+            FunctionAssociations:
+              - EventType: viewer-response
+                FunctionARN: !GetAtt CloudfrontAddImmutableCacheControlFunction.FunctionMetadata.FunctionARN
+          - PathPattern: images/*
+            ViewerProtocolPolicy: redirect-to-https
+            CachePolicyId: 658327ea-f89d-4fab-a63d-7e88639e58f6
+            TargetOriginId: AssetsBucket
+            FunctionAssociations:
+              - EventType: viewer-response
+                FunctionARN: !GetAtt CloudfrontAddCacheControlFunction.FunctionMetadata.FunctionARN
         Aliases:
           - catan.gg
           - www.catan.gg
