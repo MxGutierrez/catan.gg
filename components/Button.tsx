@@ -14,7 +14,7 @@ const SolidButton = forwardRef<HTMLButtonElement, Props>(
       <button
         ref={ref}
         className={clsx(
-          "bg-primary text-white px-5 text-base rounded-lg hover:opacity-90 h-[48px]",
+          "bg-primary text-white px-5 rounded-lg hover:opacity-90 h-[48px]",
           {
             "!opacity-50 cursor-not-allowed": disabled,
           },
