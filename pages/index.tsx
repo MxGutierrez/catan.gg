@@ -239,10 +239,15 @@ export default function Home() {
             {board.length > 0 && offsets.length > 0 && (
               <div>
                 {mode === "normal" && (
-                  <picture>
+                  <picture className="block w-[99vw] h-[calc(99vw*0.866025404)] md:w-[99vh] md:h-[calc(99vh*0.866025404)]">
+                    <source
+                      srcSet="/images/background-1x.webp 1x, /images/background-2x.webp 2x"
+                      type="image/webp"
+                    />
                     <img
-                      className="w-[99vw] h-[calc(99vw*0.866025404)] md:w-[99vh] md:h-[calc(99vh*0.866025404)]"
-                      src="/images/background.png"
+                      className="w-full h-full"
+                      src="/images/background-1x.png"
+                      srcSet="/images/background-1x.png 1x, /images/background-2x.png 2x"
                       alt="board background"
                     />
                   </picture>
