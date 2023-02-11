@@ -41,13 +41,13 @@ export default function Tile({ num, resource, mode, offset }: Props) {
         >
           <p
             className={clsx(
-              "font-bantiqua font-bold !leading-3 mt-1",
+              "font-bantiqua font-bold !leading-3 mt-0.5 sm:mt-1",
               num >= 10 ? "text-[3.8vw] md:text-3xl" : "text-[4vw] md:text-4xl"
             )}
           >
             {num}
           </p>
-          <div className="text-[3vw] md:text-[1.6rem] !leading-3">
+          <div className="text-[3vw] md:text-[1.6rem] !leading-3 -mt-1.5 sm:mt-0">
             {Array.from({ length: RESOURCE_PROBABILITY[num] }).map(
               (_, index) => (
                 <span key={index}>.</span>
