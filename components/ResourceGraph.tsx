@@ -5,21 +5,12 @@ import {
   CategoryScale,
   LinearScale,
   BarElement,
-  Title,
-  Tooltip,
-  Legend,
 } from "chart.js";
+import ChartDataLabels from "chartjs-plugin-datalabels";
 
 import { RESOURCE_PROBABILITY } from "@/utils/constants";
 
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend
-);
+ChartJS.register(CategoryScale, LinearScale, BarElement, ChartDataLabels);
 
 interface Props {
   board: Board;
@@ -76,9 +67,15 @@ export default function ResourceGraph({ board }: Props) {
     <Bar
       height={200}
       options={{
+        layout: {
+          padding: {
+            top: 25,
+          },
+        },
         plugins: {
-          legend: {
-            display: false,
+          datalabels: {
+            anchor: "end", // remove this line to get label in middle of the bar
+            align: "end",
           },
         },
         scales: {

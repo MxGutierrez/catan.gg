@@ -199,7 +199,7 @@ export default function Home() {
                 "flex-1 py-2 rounded-lg border",
                 mode === "normal"
                   ? "bg-gray-300 border-gray-300"
-                  : "border-gray-400"
+                  : "border-gray-400 hover:opacity-70"
               )}
             >
               Classic
@@ -211,7 +211,7 @@ export default function Home() {
                 "flex-1 py-2 rounded-lg border",
                 mode === "expanded"
                   ? "bg-gray-300 border-gray-300"
-                  : "border-gray-400"
+                  : "border-gray-400 hover:opacity-70"
               )}
             >
               Expansion
