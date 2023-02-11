@@ -73,65 +73,65 @@ export default function ResourceGraph({ board }: Props) {
   }, [board]);
 
   return (
-    <div className="relative max-w-[500px] w-full">
-      <Bar
-        height={200}
-        options={{
-          plugins: {
-            legend: {
+    // <div className="relative max-w-[500px] w-full flex items-center justify-center">
+    <Bar
+      height={200}
+      options={{
+        plugins: {
+          legend: {
+            display: false,
+          },
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            border: {
+              dash: [3, 4],
+            },
+          },
+          x: {
+            grid: {
               display: false,
             },
-          },
-          scales: {
-            y: {
-              beginAtZero: true,
-              border: {
-                dash: [3, 4],
-              },
-            },
-            x: {
-              grid: {
-                display: false,
-              },
-              ticks: {
-                padding: 15,
-              },
+            ticks: {
+              padding: 15,
             },
           },
-          animation: {
-            duration: 500,
-          },
-        }}
-        data={{
-          labels: Object.values(resources).map((resource) => resource.label),
-          datasets: [
-            {
-              data: Object.values(resources).map((resource) => resource.count),
-              backgroundColor: Object.values(resources).map(
-                (resource) => resource.color
-              ),
-              borderRadius: 5,
-            },
-          ],
-        }}
-        plugins={[
+        },
+        animation: {
+          duration: 500,
+        },
+      }}
+      data={{
+        labels: Object.values(resources).map((resource) => resource.label),
+        datasets: [
           {
-            id: "afterDraw",
-            afterDraw: (chart) => {
-              const ctx = chart.ctx;
-              const xAxis = chart.scales.x;
-              const yAxis = chart.scales.y;
-
-              xAxis.ticks.forEach((_value, index) => {
-                const x = xAxis.getPixelForTick(index);
-                const image = new Image();
-                image.src = images[index];
-                ctx.drawImage(image, x - 17, yAxis.bottom + 10, 35, 35);
-              });
-            },
+            data: Object.values(resources).map((resource) => resource.count),
+            backgroundColor: Object.values(resources).map(
+              (resource) => resource.color
+            ),
+            borderRadius: 5,
           },
-        ]}
-      />
-    </div>
+        ],
+      }}
+      plugins={[
+        {
+          id: "afterDraw",
+          afterDraw: (chart) => {
+            const ctx = chart.ctx;
+            const xAxis = chart.scales.x;
+            const yAxis = chart.scales.y;
+
+            xAxis.ticks.forEach((_value, index) => {
+              const x = xAxis.getPixelForTick(index);
+              const image = new Image();
+              image.src = images[index];
+              ctx.drawImage(image, x - 17, yAxis.bottom + 10, 35, 35);
+            });
+          },
+        },
+      ]}
+    />
+    // </div>
   );
 }

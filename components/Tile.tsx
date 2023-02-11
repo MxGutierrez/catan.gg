@@ -13,7 +13,7 @@ export default function Tile({ num, resource, mode, offset }: Props) {
   return (
     <div
       className={clsx(
-        "hex-base absolute bg-no-repeat -translate-x-1/2 -translate-y-1/2 bg-[length:99%_99%] flex items-center justify-center",
+        "absolute bg-no-repeat -translate-x-1/2 -translate-y-1/2 bg-[length:99%_99%] flex items-center justify-center",
         {
           "text-red-600": num === 6 || num === 8,
         },
