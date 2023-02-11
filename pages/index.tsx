@@ -5,6 +5,7 @@ import styles from "@/styles/Home.module.css";
 import { useEffect, useMemo, useState } from "react";
 import clsx from "clsx";
 import Tile from "@/components/Tile";
+import ResourceGraph from "@/components/ResourceGraph";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -84,13 +85,8 @@ function shuffle(array: any[]) {
   return array;
 }
 
-interface Tile {
-  resource: string;
-  num: number;
-}
-
 export default function Home() {
-  const [board, setBoard] = useState<Tile[]>([]);
+  const [board, setBoard] = useState<Board>([]);
   const [mode, setMode] = useState<Mode>("normal");
   const [offsets, setOffsets] = useState<any[]>([]);
 
@@ -185,7 +181,7 @@ export default function Home() {
       </Head>
 
       <main className="md:flex">
-        <header className="newTitle p-6 !pb-0" id="title">
+        <header className="newTitle p-3 md:p-6 !pb-0" id="title">
           <h1 className="text-xl font-bold">The Best Catan Board Generator</h1>
           {/* <nav className="myNav">
             <ul>
@@ -210,7 +206,7 @@ export default function Home() {
             </ul>
           </nav> */}
           <section id="top_content">
-            <section id="map-select">
+            <div id="map-select">
               <div className="map-select-menu-row-center">
                 <button onClick={() => setMode("normal")}>
                   <label className="map-button selected-map-button">
@@ -226,7 +222,7 @@ export default function Home() {
                   </a>
                 </button>
               </div>
-            </section>
+            </div>
             <div className="description">
               <p>
                 Map generator for Settlers of Catan for Normal and Expansion
@@ -234,7 +230,7 @@ export default function Home() {
                 your house rules.
               </p>
             </div>
-            <section id="inline-options">
+            <div id="inline-options">
               {/* <button
                 id="btnOps"
                 type="button"
@@ -246,7 +242,8 @@ export default function Home() {
               <button type="button" onClick={generateBoard}>
                 Shuffle
               </button>
-            </section>
+            </div>
+            <ResourceGraph board={board} />
           </section>
         </header>
 

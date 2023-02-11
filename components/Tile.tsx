@@ -1,4 +1,5 @@
 import clsx from "clsx";
+import { RESOURCE_PROBABILITY } from "@/utils/constants";
 
 interface Props {
   num: number;
@@ -7,21 +8,6 @@ interface Props {
   mode: Mode;
   offset: { left: number; top: number };
 }
-
-const probs: {
-  [key: number]: number;
-} = {
-  2: 1,
-  3: 2,
-  4: 3,
-  5: 4,
-  6: 5,
-  8: 5,
-  9: 4,
-  10: 3,
-  11: 2,
-  12: 1,
-};
 
 export default function Tile({ num, resource, mode, offset }: Props) {
   return (
@@ -62,9 +48,11 @@ export default function Tile({ num, resource, mode, offset }: Props) {
             {num}
           </p>
           <div className="text-[3vw] md:text-[1.6rem] !leading-3">
-            {Array.from({ length: probs[num] }).map((_, index) => (
-              <span key={index}>.</span>
-            ))}
+            {Array.from({ length: RESOURCE_PROBABILITY[num] }).map(
+              (_, index) => (
+                <span key={index}>.</span>
+              )
+            )}
           </div>
         </div>
       )}
