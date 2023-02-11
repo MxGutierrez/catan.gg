@@ -27,11 +27,18 @@ export default function Tile({ num, resource, mode, offset }: Props) {
       }}
     >
       <div className="relative w-full h-full flex items-center justify-center">
-        <img
-          src={`/images/${resource}-1x.png`}
-          className="absolute top-0 right-0 h-full w-full -z-10"
-          srcSet={`/images/${resource}-1x.png 1x, /images/${resource}-2x.png 2x, /images/${resource}-3x.png 3x, /images/${resource}-4x.png 4x`}
-        />
+        <picture className="absolute top-0 right-0 h-full w-full -z-10">
+          <source
+            srcSet={`/images/${resource}-1x.webp 1x, /images/${resource}-2x.webp 2x, /images/${resource}-3x.webp 3x, /images/${resource}-4x.webp 4x`}
+            type="image/webp"
+          />
+          <img
+            className="w-full h-full"
+            src={`/images/${resource}-1x.png`}
+            srcSet={`/images/${resource}-1x.png 1x, /images/${resource}-2x.png 2x, /images/${resource}-3x.png 3x, /images/${resource}-4x.png 4x`}
+            alt={`${resource} resource`}
+          />
+        </picture>
 
         {resource !== "desert" && (
           <div
