@@ -73,10 +73,9 @@ export default function ResourceGraph({ board }: Props) {
   }, [board]);
 
   return (
-    <div className="relative max-w-[500px]">
+    <div className="relative max-w-[500px] w-full">
       <Bar
         height={200}
-        className=""
         options={{
           plugins: {
             legend: {
@@ -95,7 +94,7 @@ export default function ResourceGraph({ board }: Props) {
                 display: false,
               },
               ticks: {
-                padding: 45,
+                padding: 15,
               },
             },
           },
