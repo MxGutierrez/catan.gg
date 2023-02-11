@@ -1,4 +1,3 @@
-import Head from "next/head";
 import { Inter } from "@next/font/google";
 import { useEffect, useMemo, useState } from "react";
 import Tile from "@/components/Tile";
@@ -170,106 +169,95 @@ export default function Home() {
   }, [board, size, mode]);
 
   return (
-    <>
-      <Head>
-        <title>Awesome Catan Board Generator</title>
-        <meta
-          name="description"
-          content="Generate Settlers of Catan boards with this Awesome Catan Board Generator. With just one click, generate boards for both Classic or Expansion Pack."
-        />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
+    <main className="md:flex container">
+      <section className="md:bg-[#F6F7F9] flex flex-col md:max-w-[600px] md:rounded-r-2xl overflow-hidden">
+        <div className="p-3 md:p-6 !pb-0 mb-8 md:mb-0 xl:!px-10 bg-[#F6F7F9] rounded-b-xl mb:rounded-none">
+          <h1 className="text-3xl lg:text-4xl font-semibold mt-4">
+            Awesome Catan Board Generator
+          </h1>
+          <p className="md:text-lg font-thin my-5">
+            Generate Settlers of Catan boards with this Awesome Catan Board
+            Generator. With just one click, generate boards for both Classic or
+            Expansion Pack.
+          </p>
 
-      <main className="md:flex container">
-        <section className="md:bg-[#F6F7F9] flex flex-col md:max-w-[600px] md:rounded-r-2xl overflow-hidden">
-          <div className="p-3 md:p-6 !pb-0 mb-8 md:mb-0 xl:!px-10 bg-[#F6F7F9] rounded-b-xl mb:rounded-none">
-            <h1 className="text-3xl lg:text-4xl font-semibold mt-4">
-              Awesome Catan Board Generator
-            </h1>
-            <p className="md:text-lg font-thin my-5">
-              Generate Settlers of Catan boards with this Awesome Catan Board
-              Generator. With just one click, generate boards for both Classic
-              or Expansion Pack.
-            </p>
-
-            <div className="rounded-lg flex items-center mb-4 space-x-3">
-              <button
-                onClick={() => setMode("normal")}
-                className={clsx(
-                  "flex-1 py-2 rounded-lg border",
-                  mode === "normal"
-                    ? "bg-gray-300 border-gray-300"
-                    : "border-gray-400 hover:opacity-70"
-                )}
-              >
-                Classic
-              </button>
-
-              <button
-                onClick={() => setMode("expanded")}
-                className={clsx(
-                  "flex-1 py-2 rounded-lg border",
-                  mode === "expanded"
-                    ? "bg-gray-300 border-gray-300"
-                    : "border-gray-400 hover:opacity-70"
-                )}
-              >
-                Expansion
-              </button>
-            </div>
-
-            <Button
-              onClick={generateBoard}
-              className="flex items-center justify-center space-x-2 w-full mb-5"
+          <div className="rounded-lg flex items-center mb-4 space-x-3">
+            <button
+              onClick={() => setMode("normal")}
+              className={clsx(
+                "flex-1 py-2 rounded-lg border",
+                mode === "normal"
+                  ? "bg-gray-300 border-gray-300"
+                  : "border-gray-400 hover:opacity-70"
+              )}
             >
-              <BiShuffle className="text-xl" />
-              <span>Shuffle</span>
-            </Button>
+              Classic
+            </button>
+
+            <button
+              onClick={() => setMode("expanded")}
+              className={clsx(
+                "flex-1 py-2 rounded-lg border",
+                mode === "expanded"
+                  ? "bg-gray-300 border-gray-300"
+                  : "border-gray-400 hover:opacity-70"
+              )}
+            >
+              Expansion
+            </button>
           </div>
 
-          <div className="flex items-center justify-center w-full flex-1 px-3 md:px-6">
-            <div className="w-full flex items-center justify-center">
-              {/* <h2 className="text-lg font-bold mb-2">Resource abundancy</h2> */}
-              <ResourceGraph board={board} />
-            </div>
-          </div>
-        </section>
+          <Button
+            onClick={generateBoard}
+            className="flex items-center justify-center space-x-2 w-full mb-5"
+          >
+            <BiShuffle className="text-xl" />
+            <span>Shuffle</span>
+          </Button>
+        </div>
 
-        <section className="flex-1 flex items-center justify-center px-1.5 xl:px-8">
-          <div className="relative w-screen h-[100vw] md:h-screen md:w-[100vh] flex items-center justify-center">
-            {board.length > 0 && offsets.length > 0 && (
-              <div>
-                {mode === "normal" && (
-                  <picture className="block w-[99vw] h-[calc(99vw*0.866025404)] md:w-[99vh] md:h-[calc(99vh*0.866025404)]">
-                    <source
-                      srcSet="/images/background-1x.webp 1x, /images/background-2x.webp 2x"
-                      type="image/webp"
-                    />
-                    <img
-                      className="w-full h-full"
-                      src="/images/background-1x.png"
-                      srcSet="/images/background-1x.png 1x, /images/background-2x.png 2x"
-                      alt="board background"
-                    />
-                  </picture>
-                )}
-                {board.map((tile, index) => (
-                  <Tile
-                    key={index}
-                    num={tile.num}
-                    resource={tile.resource}
-                    offset={{ ...offsets[index] }}
-                    mode={mode}
-                    index={index}
+        <div className="flex items-center justify-center w-full flex-1 px-3 md:px-6">
+          <div className="w-full flex items-center justify-center">
+            {/* <h2 className="text-lg font-bold mb-2">Resource abundancy</h2> */}
+            <ResourceGraph board={board} />
+          </div>
+        </div>
+      </section>
+
+      <section className="flex-1 flex items-center justify-center px-1.5 xl:px-8">
+        <div className="relative w-screen h-[100vw] md:h-screen md:w-[100vh] flex items-center justify-center">
+          {board.length > 0 && offsets.length > 0 && (
+            <div>
+              {mode === "normal" && (
+                <picture className="block w-[99vw] h-[calc(99vw*0.866025404)] md:w-[99vh] md:h-[calc(99vh*0.866025404)]">
+                  <source
+                    srcSet="/images/background-1x.webp 1x, /images/background-2x.webp 2x"
+                    type="image/webp"
                   />
-                ))}
-              </div>
-            )}
-          </div>
-        </section>
+                  <img
+                    className="w-full h-full"
+                    src="/images/background-1x.png"
+                    srcSet="/images/background-1x.png 1x, /images/background-2x.png 2x"
+                    alt="board background"
+                  />
+                </picture>
+              )}
+              {board.map((tile, index) => (
+                <Tile
+                  key={index}
+                  num={tile.num}
+                  resource={tile.resource}
+                  offset={{ ...offsets[index] }}
+                  mode={mode}
+                  index={index}
+                />
+              ))}
+            </div>
+          )}
+        </div>
+      </section>
 
-        {/* <section id="popmenu" className="menuToggle">
+      {/* <section id="popmenu" className="menuToggle">
           <h2 className="text-[25px] font-bold">Generation Custom Rules</h2>
           <br />
           <div className="settingswrap">
@@ -319,7 +307,6 @@ export default function Home() {
             </button>
           </div>
         </section> */}
-      </main>
-    </>
+    </main>
   );
 }
