@@ -116,6 +116,13 @@ Resources:
             FunctionAssociations:
               - EventType: viewer-response
                 FunctionARN: !GetAtt CloudfrontAddImmutableCacheControlFunction.FunctionMetadata.FunctionARN
+          - PathPattern: fonts/*
+            ViewerProtocolPolicy: redirect-to-https
+            CachePolicyId: 658327ea-f89d-4fab-a63d-7e88639e58f6
+            TargetOriginId: AssetsBucket
+            FunctionAssociations:
+              - EventType: viewer-response
+                FunctionARN: !GetAtt CloudfrontAddImmutableCacheControlFunction.FunctionMetadata.FunctionARN
           - PathPattern: images/*
             ViewerProtocolPolicy: redirect-to-https
             CachePolicyId: 658327ea-f89d-4fab-a63d-7e88639e58f6
