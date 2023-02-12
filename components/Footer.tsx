@@ -133,7 +133,7 @@ export default function Footer({ className }: Props) {
         isOpen={isFeedbackModalOpen}
         onRequestClose={onFeedbackClose}
         overlayClassName="fixed inset-0 bg-gray-700 bg-opacity-80 z-40"
-        className="w-[calc(100%-20px)] max-w-[800px] max-h-[calc(100vh-80px)] absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white rounded-xl flex flex-col min-h-0 text-base"
+        className="w-[calc(100%-20px)] max-w-[800px] max-h-[calc(100vh-80px)] absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white rounded-xl flex flex-col min-h-0 text-base pb-5"
       >
         <div className="flex justify-end">
           <button onClick={onFeedbackClose} className="p-5 !pb-2">
@@ -141,7 +141,7 @@ export default function Footer({ className }: Props) {
           </button>
         </div>
 
-        <div className="overflow-auto overscroll-contain mt-1 px-6 md:px-9 pb-6">
+        <div className="overflow-auto overscroll-contain mt-1 px-6 md:px-9">
           <h2 className="text-3xl lg:text-4xl font-semibold mb-5">Feedback</h2>
 
           <p className="mb-8">
