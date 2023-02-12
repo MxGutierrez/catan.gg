@@ -219,7 +219,7 @@ Resources:
         AllowOrigins:
           - https://catan.gg
           - https://www.catan.gg
-          - http://locahost:3000
+          - http://localhost:3000
         AllowHeaders: "'*'"
         AllowMethods: "'*'"
       DefaultRouteSettings:
