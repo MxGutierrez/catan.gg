@@ -1,6 +1,9 @@
 import "@/styles/globals.css";
 import type { AppProps } from "next/app";
 import Head from "next/head";
+import Modal from "react-modal";
+
+Modal.setAppElement("#__next");
 
 export default function App({ Component, pageProps }: AppProps) {
   return (

@@ -309,7 +309,7 @@ export default function Home() {
           </div>
         </section> */}
 
-      <Footer className="pb-5 md:pb-3 pt-4 md:pt-0 bg-[#F6F7F9] md:rounded-br-2xl md:order-2" />
+      <Footer className="pb-5 md:pb-3 pt-4 md:pt-0 bg-[#F6F7F9] md:rounded-br-2xl md:order-2 md:max-w-[600px]" />
     </main>
   );
 }
