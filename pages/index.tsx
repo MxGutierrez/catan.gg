@@ -4,6 +4,7 @@ import Tile from "@/components/Tile";
 import ResourceGraph from "@/components/ResourceGraph";
 import Button from "@/components/Button";
 import { BiShuffle } from "react-icons/bi";
+import Footer from "@/components/Footer";
 import clsx from "clsx";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -169,8 +170,8 @@ export default function Home() {
   }, [board, size, mode]);
 
   return (
-    <main className="md:flex container">
-      <section className="md:bg-[#F6F7F9] flex flex-col md:max-w-[600px] md:rounded-r-2xl overflow-hidden">
+    <main className="md:flex md:flex-col flex-wrap container max-h-screen min-h-screen">
+      <section className="md:bg-[#F6F7F9] flex flex-col md:max-w-[600px] md:rounded-tr-2xl overflow-hidden flex-1 order-1">
         <div className="p-3 md:p-6 !pb-0 mb-8 md:mb-0 xl:!px-10 bg-[#F6F7F9] rounded-b-xl mb:rounded-none">
           <h1 className="text-3xl lg:text-4xl font-semibold mt-4">
             Awesome Catan Board Generator
@@ -224,7 +225,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="flex-1 flex items-center justify-center px-1.5 xl:px-8">
+      <section className="flex-1 flex items-center justify-center px-1.5 xl:px-8 md:h-screen order-3">
         <div className="relative w-screen h-[100vw] md:h-screen md:w-[100vh] flex items-center justify-center">
           {board.length > 0 && offsets.length > 0 && (
             <div>
@@ -307,6 +308,8 @@ export default function Home() {
             </button>
           </div>
         </section> */}
+
+      <Footer className="pb-5 md:pb-3 pt-4 md:pt-0 bg-[#F6F7F9] md:rounded-br-2xl md:order-2" />
     </main>
   );
 }
