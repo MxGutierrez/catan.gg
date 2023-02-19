@@ -170,7 +170,7 @@ export default function Home() {
   }, [board, size, mode]);
 
   return (
-    <main className="md:flex md:flex-col flex-wrap container max-h-screen min-h-screen">
+    <main className="md:flex md:flex-col flex-wrap max-h-screen min-h-screen">
       <section className="md:bg-[#F6F7F9] flex flex-col md:max-w-[600px] md:rounded-tr-2xl overflow-hidden flex-1 order-1">
         <div className="p-3 md:p-6 !pb-0 mb-8 md:mb-0 xl:!px-10 bg-[#F6F7F9] rounded-b-xl mb:rounded-none">
           <h1 className="text-3xl lg:text-4xl font-semibold mt-4">
