@@ -67,6 +67,7 @@ export default function ResourceGraph({ board }: Props) {
     <Bar
       height={200}
       options={{
+        maintainAspectRatio: false,
         layout: {
           padding: {
             top: 25,

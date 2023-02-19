@@ -171,7 +171,7 @@ export default function Home() {
 
   return (
     <main className="md:flex md:flex-col flex-wrap max-h-screen min-h-screen">
-      <section className="md:bg-[#F6F7F9] flex flex-col md:max-w-[600px] md:rounded-tr-2xl overflow-hidden flex-1 order-1">
+      <section className="md:bg-[#F6F7F9] flex flex-col md:max-w-[600px] md:rounded-tr-2xl overflow-hidden md:h-[calc(100vh-55px)] order-1">
         <div className="p-3 md:p-6 !pb-0 mb-8 md:mb-0 xl:!px-10 bg-[#F6F7F9] rounded-b-xl mb:rounded-none">
           <h1 className="text-3xl lg:text-4xl font-semibold mt-4">
             Awesome Catan Board Generator
@@ -217,8 +217,8 @@ export default function Home() {
           </Button>
         </div>
 
-        <div className="flex items-center justify-center w-full flex-1 px-3 md:px-6">
-          <div className="w-full flex items-center justify-center">
+        <div className="flex items-center justify-center flex-1 w-full px-3 md:px-6 xl:px-10">
+          <div className="flex items-center h-[240px] w-full md:h-full justify-center">
             {/* <h2 className="text-lg font-bold mb-2">Resource abundancy</h2> */}
             <ResourceGraph board={board} />
           </div>
@@ -309,7 +309,7 @@ export default function Home() {
           </div>
         </section> */}
 
-      <Footer className="pb-5 md:pb-3 pt-4 md:pt-0 bg-[#F6F7F9] md:rounded-br-2xl md:order-2 md:max-w-[600px]" />
+      <Footer className="pb-5 md:pb-3 pt-4 md:pt-2 bg-[#F6F7F9] md:rounded-br-2xl md:order-2 md:max-w-[600px] md:flex-1" />
     </main>
   );
 }
