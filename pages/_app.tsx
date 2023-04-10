@@ -32,6 +32,7 @@ export default function App({ Component, pageProps }: AppProps) {
           content="Generate Settlers of Catan boards with this Awesome Catan Board Generator. With just one click, generate boards for both Classic or Expansion Pack."
         />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="icon" href="/favicon.ico" />
         <link
           rel="apple-touch-icon"
           sizes="180x180"
