@@ -1,16 +1,15 @@
-# .env only holds the values cf-deploy needs, so a missing file is fine here.
--include .env
-
 BUCKET := catan.gg
+ACM_CERTIFICATE_ARN := arn:aws:acm:us-east-1:220005447721:certificate/b7d22ccf-7b7c-4e5c-95b9-2715bd9b9586
+MAIL_TO := maxigutierrez23@gmail.com
 
 # Read the distribution id from the alias, so no id is hard coded.
 DIST_ID = aws cloudfront list-distributions \
 	--query "DistributionList.Items[?contains(Aliases.Items,'$(BUCKET)')].Id | [0]" \
 	--output text
 
-# Deploy the infrastructure. Needs ACM_CERTIFICATE_ARN in .env.
+# Deploy the infrastructure. Every value it needs is set above.
 cf-deploy:
-	sam build && sam deploy --stack-name catangg --parameter-overrides AcmCertificateArn=${ACM_CERTIFICATE_ARN} ContactFormMailTo=maxigutierrez23@gmail.com SESIdentityName=maxigutierrez23@gmail.com --no-confirm-changeset --capabilities CAPABILITY_IAM --disable-rollback
+	sam build && sam deploy --stack-name catangg --parameter-overrides AcmCertificateArn=$(ACM_CERTIFICATE_ARN) ContactFormMailTo=$(MAIL_TO) SESIdentityName=$(MAIL_TO) --no-confirm-changeset --capabilities CAPABILITY_IAM --disable-rollback
 
 # Deploy the site. The sync alone is not enough: CloudFront caches the HTML,
 # so the edge keeps serving the old pages until they are invalidated.
