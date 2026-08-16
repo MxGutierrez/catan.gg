@@ -29,7 +29,6 @@ export default function Board({ board, offsets, mode }: BoardProps) {
           />
           <img
             src="/images/background-1x.png"
-            srcSet="/images/background-1x.png 1x, /images/background-2x.png 2x"
             alt=""
             aria-hidden="true"
             {...{ fetchpriority: "high" }}
@@ -57,7 +56,6 @@ export default function Board({ board, offsets, mode }: BoardProps) {
               />
               <img
                 src={`/images/${tile.resource}-1x.png`}
-                srcSet={`/images/${tile.resource}-1x.png 1x, /images/${tile.resource}-2x.png 2x, /images/${tile.resource}-3x.png 3x, /images/${tile.resource}-4x.png 4x`}
                 alt=""
                 aria-hidden="true"
               />

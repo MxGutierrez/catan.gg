@@ -3,7 +3,9 @@ import { useEffect, useMemo, useState } from "react";
 import clsx from "clsx";
 import s from "@/styles/Home.module.css";
 import Board, { ResourceChart } from "@/components/Board";
+import Link from "next/link";
 import FeedbackModal from "@/components/FeedbackModal";
+import { ARTICLES, HOME, SITE } from "@/lib/site";
 import {
   DEFAULT_FILTERS,
   FILTER_LABELS,
@@ -17,11 +19,8 @@ import {
   tileCount,
 } from "@/lib/board";
 
-const SITE = "https://catan.gg";
-
-const TITLE = "Catan Board Generator — random Settlers of Catan boards";
-const DESCRIPTION =
-  "Generate a random Settlers of Catan board in one tap. Classic map and the 5–6 player expansion, with setup rules you can switch on and off.";
+const TITLE = HOME.title;
+const DESCRIPTION = HOME.description;
 
 /**
  * The board written into the static HTML. The page draws a random one as soon
@@ -411,6 +410,18 @@ export default function Home() {
                   <p className={s.faqA}>{answer}</p>
                 </div>
               ))}
+            </section>
+
+            <section className={s.section} id="more">
+              <h2 className={s.h2}>More about Catan boards</h2>
+              <div className={s.readMore}>
+                {ARTICLES.map((page) => (
+                  <Link className={s.readCard} href={page.path} key={page.path}>
+                    <span className={s.readName}>{page.headline}</span>
+                    <span className={s.readText}>{page.description}</span>
+                  </Link>
+                ))}
+              </div>
             </section>
 
             <footer className={s.footer}>

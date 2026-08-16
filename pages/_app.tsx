@@ -13,6 +13,23 @@ export default function App({ Component, pageProps }: AppProps) {
     <>
       <Head>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        {/* The board tokens and the headings paint first, so their faces
+            load ahead of the rest. */}
+        {[
+          "Book-Antiqua",
+          "Book-Antiqua-Bold",
+          "EuclidCircularA-Regular",
+        ].map((face) => (
+          <link
+            key={face}
+            rel="preload"
+            href={`/fonts/${face}.woff2`}
+            as="font"
+            type="font/woff2"
+            crossOrigin="anonymous"
+          />
+        ))}
         <link rel="icon" href="/favicon.ico" />
         <link
           rel="apple-touch-icon"

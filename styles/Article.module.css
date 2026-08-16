@@ -1,0 +1,304 @@
+/* A printed sheet, the same paper the home page uses below the table. */
+
+.page {
+  --paper: #ede4d3;
+  --paperEdge: #cdbd9f;
+  --ink: #241c14;
+  --inkSoft: #6a5b48;
+  --clay: #a6412b;
+  --sea: #1c6386;
+  --table: #2b1e12;
+
+  background: var(--paper);
+  color: var(--ink);
+  min-height: 100vh;
+}
+
+.bar {
+  background: var(--table);
+  color: var(--paper);
+  padding: 0.9rem 1.5rem;
+}
+
+.barInner {
+  max-width: 900px;
+  margin: 0 auto;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.brand {
+  font-family: "Book Antiqua", Georgia, serif;
+  font-size: 1.15rem;
+  color: var(--paper);
+  text-decoration: none;
+}
+
+.brand span {
+  color: #c08a3e;
+}
+
+.barLink {
+  font-size: 0.86rem;
+  color: rgba(237, 228, 211, 0.72);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(237, 228, 211, 0.35);
+}
+
+.barLink:hover {
+  color: var(--paper);
+}
+
+.main {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 2.75rem 1.5rem 3rem;
+}
+
+.crumbs {
+  font-size: 0.82rem;
+  color: var(--inkSoft);
+  margin-bottom: 1.25rem;
+}
+
+.crumbs a {
+  color: var(--sea);
+  text-decoration: none;
+}
+
+.crumbs a:hover {
+  text-decoration: underline;
+}
+
+.h1 {
+  font-family: "Book Antiqua", Georgia, serif;
+  font-size: clamp(1.9rem, 4vw, 2.6rem);
+  font-weight: 400;
+  line-height: 1.1;
+  margin-bottom: 0.8rem;
+}
+
+.standfirst {
+  font-family: "Book Antiqua", Georgia, serif;
+  font-size: clamp(1.05rem, 2vw, 1.25rem);
+  line-height: 1.55;
+  max-width: 46ch;
+  margin-bottom: 2.25rem;
+  color: #3a2f24;
+}
+
+.h2 {
+  font-family: "Book Antiqua", Georgia, serif;
+  font-size: 1.55rem;
+  font-weight: 400;
+  margin: 2.5rem 0 0.7rem;
+}
+
+.h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 1.4rem 0 0.3rem;
+}
+
+.p {
+  line-height: 1.75;
+  color: #47392c;
+  max-width: 64ch;
+  margin-bottom: 0.9rem;
+}
+
+.p a,
+.li a {
+  color: var(--sea);
+}
+
+.list {
+  max-width: 64ch;
+  margin: 0 0 1rem 0;
+  padding-left: 1.1rem;
+}
+
+.li {
+  line-height: 1.7;
+  color: #47392c;
+  margin-bottom: 0.45rem;
+  list-style: disc;
+}
+
+/* ---------- tables ---------- */
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.92rem;
+  max-width: 560px;
+  margin-bottom: 1.2rem;
+}
+
+.table caption {
+  text-align: left;
+  font-size: 0.84rem;
+  color: var(--inkSoft);
+  padding-bottom: 0.6rem;
+}
+
+.table th {
+  text-align: left;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--inkSoft);
+  padding: 0 0.5rem 0.4rem 0;
+  border-bottom: 1px solid var(--ink);
+}
+
+.table td {
+  padding: 0.42rem 0.5rem 0.42rem 0;
+  border-bottom: 1px solid var(--paperEdge);
+  font-variant-numeric: tabular-nums;
+}
+
+.hot {
+  color: var(--clay);
+  font-weight: 600;
+}
+
+.bar2 {
+  display: inline-block;
+  height: 8px;
+  background: var(--clay);
+  vertical-align: middle;
+}
+
+/* The two dice grid. Each cell is one of the 36 combinations. */
+.grid {
+  border-collapse: collapse;
+  font-size: 0.85rem;
+  margin-bottom: 1.2rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.grid th,
+.grid td {
+  border: 1px solid var(--paperEdge);
+  width: 2.4rem;
+  height: 2.2rem;
+  text-align: center;
+}
+
+.grid th {
+  background: rgba(42, 33, 24, 0.06);
+  font-weight: 600;
+  color: var(--inkSoft);
+}
+
+.gridHot {
+  background: rgba(166, 65, 43, 0.16);
+  color: var(--clay);
+  font-weight: 600;
+}
+
+.gridSeven {
+  background: rgba(42, 33, 24, 0.14);
+}
+
+/* ---------- pull-out box ---------- */
+
+.note {
+  border-left: 3px solid var(--clay);
+  background: rgba(166, 65, 43, 0.07);
+  padding: 1rem 1.2rem;
+  line-height: 1.7;
+  max-width: 64ch;
+  margin: 1.5rem 0;
+}
+
+.cta {
+  display: inline-block;
+  margin: 1.5rem 0 0.5rem;
+  background: linear-gradient(180deg, #b94b31 0%, #97381f 100%);
+  border: 1px solid #6d2a1a;
+  border-radius: 3px;
+  color: #fff5e8;
+  font-family: "Book Antiqua", Georgia, serif;
+  font-size: 1rem;
+  font-weight: 600;
+  padding: 0.7rem 1.6rem;
+  text-decoration: none;
+  box-shadow: inset 0 1px 0 rgba(255, 220, 190, 0.35), 0 4px 0 #6d2a1a;
+}
+
+.cta:hover {
+  background: linear-gradient(180deg, #c85436 0%, #a13d22 100%);
+}
+
+/* ---------- board figure ---------- */
+
+.figure {
+  margin: 1.75rem 0;
+  max-width: 520px;
+}
+
+.board {
+  /* The expansion hexes fill the whole square, so the frame is square too. */
+  background: var(--table);
+  border: 1px solid var(--paperEdge);
+  padding: 3%;
+}
+
+.caption {
+  font-size: 0.84rem;
+  color: var(--inkSoft);
+  margin-top: 0.6rem;
+  line-height: 1.55;
+}
+
+/* ---------- read next ---------- */
+
+.next {
+  border-top: 1px solid var(--paperEdge);
+  margin-top: 3rem;
+  padding-top: 1.5rem;
+}
+
+.nextGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+  margin-top: 0.9rem;
+}
+
+.nextCard {
+  border: 1px solid var(--paperEdge);
+  background: #fffaf0;
+  padding: 0.9rem 1rem;
+  text-decoration: none;
+  color: var(--ink);
+  border-radius: 2px;
+}
+
+.nextCard:hover {
+  border-color: var(--clay);
+}
+
+.nextName {
+  font-family: "Book Antiqua", Georgia, serif;
+  font-size: 1.05rem;
+  margin-bottom: 0.2rem;
+}
+
+.nextText {
+  font-size: 0.82rem;
+  line-height: 1.5;
+  color: var(--inkSoft);
+}
+
+.footer {
+  border-top: 1px solid var(--paperEdge);
+  margin-top: 2rem;
+  padding-top: 1.25rem;
+  font-size: 0.82rem;
+  color: var(--inkSoft);
+}

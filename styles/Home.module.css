@@ -462,6 +462,41 @@
   max-width: 62ch;
 }
 
+.readMore {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.readCard {
+  display: block;
+  border: 1px solid var(--paperEdge);
+  background: #fffaf0;
+  border-radius: 2px;
+  padding: 0.95rem 1.05rem;
+  text-decoration: none;
+  color: var(--ink);
+}
+
+.readCard:hover {
+  border-color: var(--clay);
+}
+
+.readName {
+  display: block;
+  font-family: "Book Antiqua", Georgia, serif;
+  font-size: 1.08rem;
+  margin-bottom: 0.25rem;
+}
+
+.readText {
+  display: block;
+  font-size: 0.83rem;
+  line-height: 1.55;
+  color: var(--inkSoft);
+}
+
 .footer {
   border-top: 1px solid var(--paperEdge);
   margin-top: 1rem;

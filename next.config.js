@@ -8,6 +8,9 @@ const nextConfig = {
   // public/og.png, so it stays out of the exported site.
   exportPathMap: async () => ({
     "/": { page: "/" },
+    "/catan-dice-odds": { page: "/catan-dice-odds" },
+    "/catan-setup-rules": { page: "/catan-setup-rules" },
+    "/catan-5-6-player-expansion": { page: "/catan-5-6-player-expansion" },
   }),
 };
 
