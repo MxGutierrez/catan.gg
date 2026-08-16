@@ -87,6 +87,24 @@ Resources:
         Comment: Add immutable cache control header to viewer-response
         Runtime: cloudfront-js-1.0
 
+  CloudfrontAddRevalidateCacheControlFunction:
+    Type: AWS::CloudFront::Function
+    Properties:
+      Name: catan-cloudfront-add-revalidate-cache-control
+      AutoPublish: true
+      FunctionCode: |
+        function handler(event) {
+          var response = event.response;
+          var headers = response.headers;
+
+          headers['cache-control'] = {value: 'public, max-age=0, must-revalidate'};
+
+          return response;
+        }
+      FunctionConfig:
+        Comment: Ask the browser to revalidate the HTML on every visit
+        Runtime: cloudfront-js-1.0
+
   Cloudfront:
     Type: AWS::CloudFront::Distribution
     Properties:
@@ -108,6 +126,10 @@ Resources:
           FunctionAssociations:
             - EventType: viewer-request
               FunctionARN: !GetAtt CloudfrontRewriteRequestFunction.FunctionMetadata.FunctionARN
+            # The HTML carried no cache-control at all, so browsers guessed and
+            # kept showing an old page after a deploy. The edge still caches it.
+            - EventType: viewer-response
+              FunctionARN: !GetAtt CloudfrontAddRevalidateCacheControlFunction.FunctionMetadata.FunctionARN
         CacheBehaviors:
           - PathPattern: _next/static/*
             ViewerProtocolPolicy: redirect-to-https
