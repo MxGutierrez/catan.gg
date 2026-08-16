@@ -92,6 +92,10 @@
   justify-content: center;
   gap: 0.85rem;
   min-height: 0;
+  /* Air under the header, so the board does not crowd the board facts. The
+     padding sits above the centred column, so the top gap stays larger than
+     the bottom one and the board hangs clear of the header line. */
+  padding-top: 3rem;
 }
 
 /* The slips lie on the table, so they take no room in the column. */
@@ -105,8 +109,9 @@
    transparent band above and below the art costs no space. */
 .boardSlot {
   position: relative;
-  /* The subtracted height covers the header, the caption and the rail. */
-  width: min(100%, calc((100svh - 16.5rem) / 0.866025404));
+  /* The subtracted height covers the header, the gap under it, the caption
+     and the rail. */
+  width: min(100%, calc((100svh - 20.5rem) / 0.866025404));
   max-width: 680px;
   aspect-ratio: 1 / 0.866025404;
 }
@@ -541,7 +546,7 @@
   /* The board still gives way to the header, the caption and the rail, so
      the rail stays on the first screen on a short window as well. */
   .boardSlot {
-    width: min(100%, 560px, calc((100svh - 16.5rem) / 0.866025404));
+    width: min(100%, 560px, calc((100svh - 20.5rem) / 0.866025404));
   }
 }
 
