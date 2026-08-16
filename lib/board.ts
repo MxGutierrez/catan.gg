@@ -11,12 +11,34 @@ export type Tile = {
 export type Layout = {
   id: Mode;
   tilesPerRow: number[];
-  resources: Resource[];
+  /** How many hexes of each resource the set contains. */
+  resources: Record<string, number>;
   nums: number[];
-  deserts: number;
-  /** Percentage of the board width that one hex covers. */
+  /** Percentage of the board box that one hex covers. */
   size: number;
 };
+
+/** What the generator keeps apart. Every rule is a checkbox on the page. */
+export type Filters = {
+  reds: boolean;
+  lows: boolean;
+  sameNumber: boolean;
+  sameResource: boolean;
+};
+
+export const DEFAULT_FILTERS: Filters = {
+  reds: true,
+  lows: false,
+  sameNumber: true,
+  sameResource: false,
+};
+
+export const FILTER_LABELS: [keyof Filters, string, string][] = [
+  ["reds", "Keep 6 and 8 apart", "The rule the printed manual states."],
+  ["lows", "Keep 2 and 12 apart", "Stops both dead corners sitting together."],
+  ["sameNumber", "Keep matching numbers apart", "No number twice on one corner."],
+  ["sameResource", "Keep matching resources apart", "Breaks up the big blocks."],
+];
 
 export const RESOURCE_ORDER: Resource[] = [
   "wood",
@@ -44,39 +66,22 @@ export const RESOURCE_COLOR: Record<string, string> = {
   ore: "#d6d0ce",
 };
 
-const times = <T,>(value: T, count: number): T[] =>
-  Array.from({ length: count }, () => value);
-
 export const CLASSIC: Layout = {
   id: "normal",
   tilesPerRow: [3, 4, 5, 4, 3],
-  resources: [
-    ...times<Resource>("ore", 3),
-    ...times<Resource>("brick", 3),
-    ...times<Resource>("sheep", 4),
-    ...times<Resource>("wood", 4),
-    ...times<Resource>("wheat", 4),
-  ],
+  resources: { ore: 3, brick: 3, sheep: 4, wood: 4, wheat: 4, desert: 1 },
   nums: [2, 3, 3, 4, 4, 5, 5, 6, 6, 8, 8, 9, 9, 10, 10, 11, 11, 12],
-  deserts: 1,
   size: 17.5,
 };
 
 export const EXPANSION: Layout = {
   id: "expanded",
   tilesPerRow: [1, 2, 3, 4, 3, 4, 3, 4, 3, 2, 1],
-  resources: [
-    ...times<Resource>("ore", 5),
-    ...times<Resource>("brick", 5),
-    ...times<Resource>("sheep", 6),
-    ...times<Resource>("wood", 6),
-    ...times<Resource>("wheat", 6),
-  ],
+  resources: { ore: 5, brick: 5, sheep: 6, wood: 6, wheat: 6, desert: 2 },
   nums: [
     2, 2, 3, 3, 3, 4, 4, 4, 5, 5, 5, 6, 6, 6, 8, 8, 8, 9, 9, 9, 10, 10, 10, 11,
     11, 11, 12, 12,
   ],
-  deserts: 2,
   size: 16,
 };
 
@@ -85,6 +90,9 @@ export const LAYOUTS: Record<Mode, Layout> = {
   expanded: EXPANSION,
 };
 
+export const tileCount = (layout: Layout) =>
+  layout.tilesPerRow.reduce((sum, n) => sum + n, 0);
+
 /* ------------------------------------------------------------------ */
 /* Geometry                                                            */
 /* ------------------------------------------------------------------ */
@@ -92,8 +100,9 @@ export const LAYOUTS: Record<Mode, Layout> = {
 export type Offset = { left: number; top: number };
 
 /**
- * Where each hex sits, as a percentage of the board box. The maths matches
- * the artwork, so the tiles land inside the printed sea frame.
+ * Where each hex sits, as a percentage of the square the board is drawn in.
+ * Both axes use the same square, so a step across and a step down compare
+ * directly.
  */
 export function offsetsFor(layout: Layout): Offset[] {
   const { size, tilesPerRow } = layout;
@@ -124,64 +133,39 @@ export function offsetsFor(layout: Layout): Offset[] {
 }
 
 /**
- * Every pair of hexes that shares an edge, as "low:high" keys.
+ * Which hexes share an edge, as a neighbour list.
  *
  * The two maps do not use the same grid: the classic map stacks pointy-top
  * hexes in rows, and the expansion map turns them a quarter turn. Reading the
  * neighbours back from the drawn positions keeps one rule for both. Two hexes
  * touch when they sit at the shortest distance any pair of hexes reaches.
  */
-export function neighboursFor(layout: Layout): Set<string> {
-  // The board box is wider than it is tall, so scale the vertical axis before
-  // the distances mean anything.
-  const points = offsetsFor(layout).map((offset) => ({
-    x: offset.left,
-    y: offset.top * 0.866025404,
-  }));
-
-  const distances: [number, number, number][] = [];
+export function adjacencyFor(layout: Layout): number[][] {
+  const points = offsetsFor(layout);
+  const pairs: [number, number, number][] = [];
   let shortest = Infinity;
 
   for (let i = 0; i < points.length; i++) {
     for (let j = i + 1; j < points.length; j++) {
       const distance = Math.hypot(
-        points[i].x - points[j].x,
-        points[i].y - points[j].y
+        points[i].left - points[j].left,
+        points[i].top - points[j].top
       );
-      distances.push([i, j, distance]);
+      pairs.push([i, j, distance]);
       if (distance < shortest) shortest = distance;
     }
   }
 
   const limit = shortest * 1.25;
-  const pairs = new Set<string>();
+  const adjacency: number[][] = points.map(() => []);
 
-  distances.forEach(([a, b, distance]) => {
-    if (distance <= limit) pairs.add(`${a}:${b}`);
+  pairs.forEach(([a, b, distance]) => {
+    if (distance > limit) return;
+    adjacency[a].push(b);
+    adjacency[b].push(a);
   });
 
-  return pairs;
-}
-
-/** Every corner where three hexes meet. Those are the inland build spots. */
-export function cornersFor(layout: Layout): number[][] {
-  const neighbours = neighboursFor(layout);
-  const touches = (a: number, b: number) =>
-    neighbours.has(`${Math.min(a, b)}:${Math.max(a, b)}`);
-
-  const total = layout.tilesPerRow.reduce((sum, n) => sum + n, 0);
-  const corners: number[][] = [];
-
-  for (let a = 0; a < total; a++) {
-    for (let b = a + 1; b < total; b++) {
-      if (!touches(a, b)) continue;
-      for (let c = b + 1; c < total; c++) {
-        if (touches(a, c) && touches(b, c)) corners.push([a, b, c]);
-      }
-    }
-  }
-
-  return corners;
+  return adjacency;
 }
 
 /* ------------------------------------------------------------------ */
@@ -197,58 +181,144 @@ function shuffle<T>(input: T[]): T[] {
   return array;
 }
 
-const isRed = (num: number) => num === 6 || num === 8;
-
-/** A board is legal when no two red numbers and no two equal numbers touch. */
-function isLegal(board: Tile[], edges: string[], checkSameNumber: boolean) {
-  for (const edge of edges) {
-    const [a, b] = edge.split(":").map(Number);
-    const left = board[a].num;
-    const right = board[b].num;
-
-    if (isRed(left) && isRed(right)) return false;
-    if (checkSameNumber && left !== 0 && left === right) return false;
-  }
-  return true;
-}
-
-const MAX_ATTEMPTS = 12000;
-
 /**
- * Draw a board. The generator shuffles the hexes and the tokens, then checks
- * the layout against the setup rules. If a check fails, it draws again.
+ * Fill the positions one at a time, hardest first, and step back whenever a
+ * position runs out of pieces. Shuffling and re-checking cannot satisfy the
+ * resource rule, so the generator places instead of redrawing.
  */
-export function generateBoard(layout: Layout): Tile[] {
-  const edges = Array.from(neighboursFor(layout));
+function fillOnce(
+  adjacency: number[][],
+  pool: Record<string, number>,
+  allowed: (value: string, at: number, placed: (string | null)[]) => boolean,
+  budget: number
+): string[] | null {
+  const total = adjacency.length;
 
-  const draw = () => {
-    const resources = shuffle(layout.resources);
-    const nums = shuffle(layout.nums);
-    const tiles: Tile[] = resources.map((resource, index) => ({
-      resource,
-      num: nums[index],
-    }));
+  // Visit the position that already touches the most filled positions. That
+  // order finds a dead end early instead of deep in the search.
+  const sequence: number[] = [];
+  const filled = new Array(total).fill(false);
+  const touching = new Array(total).fill(0);
 
-    for (let i = 0; i < layout.deserts; i++) {
-      tiles.push({ resource: "desert", num: 0 });
+  for (let step = 0; step < total; step++) {
+    let best = -1;
+    let bestScore = -1;
+    shuffle(Array.from({ length: total }, (_, i) => i)).forEach((i) => {
+      if (filled[i] || touching[i] <= bestScore) return;
+      bestScore = touching[i];
+      best = i;
+    });
+    filled[best] = true;
+    sequence.push(best);
+    adjacency[best].forEach((j) => touching[j]++);
+  }
+
+  const placed: (string | null)[] = new Array(total).fill(null);
+  const left = { ...pool };
+  let steps = 0;
+
+  const walk = (depth: number): boolean => {
+    if (depth === total) return true;
+    if (++steps > budget) return false;
+
+    const at = sequence[depth];
+    const options = shuffle(Object.keys(left).filter((key) => left[key] > 0));
+
+    for (const value of options) {
+      if (!allowed(value, at, placed)) continue;
+      left[value]--;
+      placed[at] = value;
+      if (walk(depth + 1)) return true;
+      left[value]++;
+      placed[at] = null;
     }
 
-    return shuffle(tiles);
+    return false;
   };
 
-  for (let attempt = 0; attempt < MAX_ATTEMPTS; attempt++) {
-    const board = draw();
-    if (isLegal(board, edges, true)) return board;
+  return walk(0) ? (placed as string[]) : null;
+}
+
+/** A restart beats a long search: the runtime of one attempt is heavy tailed. */
+function fill(
+  adjacency: number[][],
+  pool: Record<string, number>,
+  allowed: (value: string, at: number, placed: (string | null)[]) => boolean
+) {
+  for (let attempt = 0; attempt < 24; attempt++) {
+    const result = fillOnce(adjacency, pool, allowed, 8000);
+    if (result) return result;
+  }
+  return null;
+}
+
+const isRed = (num: number) => num === 6 || num === 8;
+const isLow = (num: number) => num === 2 || num === 12;
+
+/**
+ * Draw a board. Resources go down first, then the number tokens land on the
+ * hexes that are not desert.
+ */
+export function generateBoard(layout: Layout, filters: Filters): Tile[] {
+  const adjacency = adjacencyFor(layout);
+
+  const resources = fill(adjacency, layout.resources, (value, at, placed) => {
+    if (!filters.sameResource || value === "desert") return true;
+    return !adjacency[at].some((j) => placed[j] === value);
+  });
+
+  if (!resources) return generateBoard(layout, { ...filters, sameResource: false });
+
+  const spots: number[] = [];
+  resources.forEach((resource, index) => {
+    if (resource !== "desert") spots.push(index);
+  });
+
+  const spotIndex = new Map(spots.map((position, i) => [position, i]));
+  const spotAdjacency = spots.map((position) =>
+    adjacency[position]
+      .filter((j) => spotIndex.has(j))
+      .map((j) => spotIndex.get(j) as number)
+  );
+
+  const pool: Record<string, number> = {};
+  layout.nums.forEach((num) => {
+    pool[num] = (pool[num] ?? 0) + 1;
+  });
+
+  const numbers = fill(spotAdjacency, pool, (value, at, placed) => {
+    const num = Number(value);
+    return !spotAdjacency[at].some((j) => {
+      const other = placed[j];
+      if (other === null) return false;
+      const neighbour = Number(other);
+      if (filters.reds && isRed(num) && isRed(neighbour)) return true;
+      if (filters.lows && isLow(num) && isLow(neighbour)) return true;
+      if (filters.sameNumber && num === neighbour) return true;
+      return false;
+    });
+  });
+
+  // Every rule off is always solvable, so this only relaxes an added rule.
+  if (!numbers) {
+    return generateBoard(layout, {
+      reds: filters.reds,
+      lows: false,
+      sameNumber: false,
+      sameResource: filters.sameResource,
+    });
   }
 
-  // The strict draw did not land. Keep the red numbers apart, which is the
-  // rule the printed manual states, and let equal numbers touch.
-  for (let attempt = 0; attempt < MAX_ATTEMPTS; attempt++) {
-    const board = draw();
-    if (isLegal(board, edges, false)) return board;
-  }
+  const board: Tile[] = resources.map((resource) => ({
+    resource: resource as Resource,
+    num: 0,
+  }));
 
-  return draw();
+  spots.forEach((position, i) => {
+    board[position].num = Number(numbers[i]);
+  });
+
+  return board;
 }
 
 /* ------------------------------------------------------------------ */
@@ -271,44 +341,6 @@ export function pipsByResource(board: Tile[]) {
   });
 
   return totals;
-}
-
-export type Spot = {
-  pips: number;
-  resources: Resource[];
-  left: number;
-  top: number;
-};
-
-/** Rank the corners by pip total, the way a player picks a first settlement. */
-export function bestSpots(
-  board: Tile[],
-  layout: Layout,
-  offsets: Offset[],
-  count = 4
-): Spot[] {
-  return cornersFor(layout)
-    .filter((corner) => corner.every((i) => board[i]))
-    .map((corner) => {
-      const tiles = corner.map((i) => board[i]);
-      const pips = tiles.reduce(
-        (total, tile) => total + (RESOURCE_PROBABILITY[tile.num] ?? 0),
-        0
-      );
-      const resources = Array.from(
-        new Set(
-          tiles.filter((t) => t.resource !== "desert").map((t) => t.resource)
-        )
-      );
-      return {
-        pips,
-        resources,
-        left: corner.reduce((sum, i) => sum + offsets[i].left, 0) / 3,
-        top: corner.reduce((sum, i) => sum + offsets[i].top, 0) / 3,
-      };
-    })
-    .sort((a, b) => b.pips - a.pips || b.resources.length - a.resources.length)
-    .slice(0, count);
 }
 
 /**

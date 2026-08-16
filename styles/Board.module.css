@@ -1,13 +1,26 @@
-/* The board and the resource chart. Both scale with their container. */
+/*
+ * The board draws inside a square. Both the hex positions and the hex sizes
+ * are percentages of that square, which is what makes the hexes interlock.
+ * The printed sea frame is narrower than the square, so it sits centred.
+ */
 
 .board {
   position: relative;
   width: 100%;
-  aspect-ratio: 1 / 0.866025404;
+  aspect-ratio: 1;
   container-type: inline-size;
 }
 
 .frame {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 99%;
+  height: calc(99% * 0.866025404);
+}
+
+.frame img {
   width: 100%;
   height: 100%;
   display: block;
@@ -20,12 +33,12 @@
 
 .tileNormal {
   height: 17.5%;
-  width: calc(17.5% * 0.866);
+  width: calc(17.5% * 0.866025404);
 }
 
 .tileExpanded {
   height: 16%;
-  width: calc(16.5% * 0.866);
+  width: calc(16.5% * 0.866025404);
   transform: translate(-50%, -50%) rotate(90deg);
 }
 
@@ -76,75 +89,31 @@
 
 .tokenNum {
   font-weight: 700;
-  font-size: 4cqw;
+  font-size: 4.4cqw;
   line-height: 0.8;
-  margin-top: 0.1em;
+  margin-top: 0.08em;
 }
 
 .tokenNumWide {
-  font-size: 3.6cqw;
+  font-size: 3.7cqw;
 }
 
 .tokenPips {
-  font-size: 3cqw;
-  line-height: 0.4;
+  font-size: 3.1cqw;
+  line-height: 0.42;
   letter-spacing: 0.02em;
 }
 
 .tileExpanded .tokenNum {
-  font-size: 3.6cqw;
+  font-size: 4cqw;
 }
 
 .tileExpanded .tokenNumWide {
-  font-size: 3.25cqw;
+  font-size: 3.4cqw;
 }
 
 .tileExpanded .tokenPips {
-  font-size: 2.7cqw;
-}
-
-/* ---------- best settlement spots ---------- */
-
-.spot {
-  position: absolute;
-  transform: translate(-50%, -50%);
-  width: 3.8%;
-  aspect-ratio: 1;
-  border-radius: 999px;
-  background: #c9a227;
-  border: 2px solid #fffaf0;
-  color: #1a1209;
-  display: grid;
-  place-items: center;
-  font-size: 1.8cqw;
-  font-weight: 700;
-  line-height: 1;
-  z-index: 2;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.55);
-  animation: spotIn 0.35s ease both;
-}
-
-.spot:nth-child(2) {
-  animation-delay: 0.05s;
-}
-
-.spot:nth-child(3) {
-  animation-delay: 0.1s;
-}
-
-.spot:nth-child(4) {
-  animation-delay: 0.15s;
-}
-
-@keyframes spotIn {
-  from {
-    opacity: 0;
-    transform: translate(-50%, -50%) scale(0.4);
-  }
-  to {
-    opacity: 1;
-    transform: translate(-50%, -50%) scale(1);
-  }
+  font-size: 2.9cqw;
 }
 
 /* ---------- resource chart ---------- */
@@ -152,7 +121,7 @@
 .chart {
   display: flex;
   align-items: flex-end;
-  gap: 0.6rem;
+  gap: 0.55rem;
 }
 
 .chartCol {
@@ -160,12 +129,12 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.35rem;
+  gap: 0.3rem;
 }
 
 .chartVal {
-  font-size: 0.8rem;
-  font-weight: 700;
+  font-size: 0.82rem;
+  font-weight: 600;
   line-height: 1;
   font-variant-numeric: tabular-nums;
 }
@@ -179,28 +148,23 @@
 
 .chartFill {
   width: 100%;
-  border-radius: 5px 5px 0 0;
   min-height: 3px;
   transition: height 0.3s ease;
 }
 
 .chartIcon {
-  width: 30px;
-  height: 30px;
+  width: 28px;
+  height: 28px;
   object-fit: contain;
 }
 
 .chartName {
-  font-size: 0.62rem;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  opacity: 0.7;
+  font-size: 0.7rem;
+  opacity: 0.75;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .spot,
   .chartFill {
-    animation: none;
     transition: none;
   }
 }

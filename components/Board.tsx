@@ -6,7 +6,6 @@ import {
   RESOURCE_COLOR,
   RESOURCE_LABEL,
   RESOURCE_ORDER,
-  Spot,
   Tile,
 } from "@/lib/board";
 
@@ -14,22 +13,20 @@ interface BoardProps {
   board: Tile[];
   offsets: Offset[];
   mode: Mode;
-  spots?: Spot[];
 }
 
-export default function Board({ board, offsets, mode, spots = [] }: BoardProps) {
+export default function Board({ board, offsets, mode }: BoardProps) {
   if (!board.length || !offsets.length) return <div className={s.board} />;
 
   return (
     <div className={s.board}>
       {mode === "normal" && (
-        <picture>
+        <picture className={s.frame}>
           <source
             srcSet="/images/background-1x.webp 1x, /images/background-2x.webp 2x"
             type="image/webp"
           />
           <img
-            className={s.frame}
             src="/images/background-1x.png"
             srcSet="/images/background-1x.png 1x, /images/background-2x.png 2x"
             alt=""
@@ -88,25 +85,11 @@ export default function Board({ board, offsets, mode, spots = [] }: BoardProps) 
           </div>
         </div>
       ))}
-
-      {spots.map((spot, index) => (
-        <div
-          key={`${spot.left}-${spot.top}`}
-          className={s.spot}
-          style={{ left: `${spot.left}%`, top: `${spot.top}%` }}
-          title={`${spot.pips} pips · ${spot.resources
-            .map((r) => RESOURCE_LABEL[r])
-            .join(", ")}`}
-        >
-          {index + 1}
-        </div>
-      ))}
     </div>
   );
 }
 
 interface ChartProps {
-  board: Tile[];
   pips: Record<string, number>;
   showNames?: boolean;
   barHeight?: number;
@@ -121,7 +104,7 @@ interface ChartProps {
 export function ResourceChart({
   pips,
   showNames = false,
-  barHeight = 78,
+  barHeight = 72,
   axisColor,
   valueColor,
 }: ChartProps) {

@@ -1,373 +1,397 @@
 /* ============================================================
-   catan.gg — "Overhead"
-   A lamp over a dark table. The board is the hero, the controls
-   float in a bar, and the written answers live below the fold.
+   catan.gg
+   Two materials. A lit wooden table holds the board and the
+   printed slips. A paper sheet below the table holds the words.
    ============================================================ */
 
 .page {
-  --wood: #1a1209;
-  --brass: #c9a227;
-  --cream: #efe3cd;
-  --clay: #b4552c;
+  --table: #2b1e12;
+  --tableDark: #140d07;
+  --paper: #ede4d3;
+  --paperEdge: #cdbd9f;
+  --ink: #241c14;
+  --inkSoft: #6a5b48;
+  --clay: #a6412b;
+  --sea: #1c6386;
 
-  background: var(--wood);
-  color: var(--cream);
-  min-height: 100vh;
+  background: var(--tableDark);
+  color: var(--paper);
 }
 
-/* ---------- the app view ---------- */
+/* ---------- the table ---------- */
 
-.app {
+.table {
   position: relative;
   min-height: 100vh;
   min-height: 100svh;
-  background: radial-gradient(
-      72% 62% at 50% 44%,
-      #6b4a28 0%,
-      #35230f 46%,
-      #150e06 100%
-    ),
-    var(--wood);
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 1.1rem 1.25rem 7rem;
+  padding: 1.4rem 1.5rem 8.5rem;
+  background: radial-gradient(
+      82% 66% at 46% 40%,
+      #5f4326 0%,
+      #3a2917 42%,
+      #1d1409 78%,
+      var(--tableDark) 100%
+    ),
+    var(--table);
   overflow: hidden;
 }
 
-.topbar {
+/* Grain, so the surface reads as wood and not as a gradient. */
+.table::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.34;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+}
+
+.head {
+  position: relative;
+  z-index: 2;
   width: 100%;
-  max-width: 1400px;
+  max-width: 1420px;
   display: flex;
-  align-items: center;
+  align-items: baseline;
   justify-content: space-between;
   gap: 1rem;
-  text-transform: uppercase;
-  letter-spacing: 0.22em;
-  font-size: 0.66rem;
-  color: rgba(239, 227, 205, 0.6);
 }
 
 .brand {
-  color: var(--cream);
-  letter-spacing: 0.3em;
-  font-weight: 600;
+  font-family: "Book Antiqua", Georgia, serif;
+  font-size: 1.2rem;
+  color: var(--paper);
   text-decoration: none;
 }
 
-.meta {
+.brand span {
+  color: #c08a3e;
+}
+
+.facts {
+  font-size: 0.86rem;
+  color: rgba(237, 228, 211, 0.55);
   font-variant-numeric: tabular-nums;
-  text-align: right;
 }
 
 .stage {
+  position: relative;
+  z-index: 1;
   flex: 1;
   width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 0.9rem;
+  gap: 1rem;
   min-height: 0;
-  padding: 0.75rem 0;
 }
 
-.boardWrap {
-  width: min(100%, calc((100vh - 15rem) / 0.866));
-  max-width: 660px;
-  border-radius: 50%;
-  background: radial-gradient(
-    circle at 50% 48%,
-    #9a6f3c 0%,
-    #6d4a24 58%,
-    rgba(109, 74, 36, 0) 70%
-  );
-  filter: drop-shadow(0 46px 55px rgba(0, 0, 0, 0.72));
+/* A layout box with the art's shape. The square board floats over it, so the
+   transparent band above and below the art costs no space. */
+.boardSlot {
+  position: relative;
+  width: min(100%, calc((100vh - 16rem) / 0.866025404));
+  max-width: 680px;
+  aspect-ratio: 1 / 0.866025404;
+}
+
+.boardSquare {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  filter: drop-shadow(0 40px 44px rgba(0, 0, 0, 0.66));
 }
 
 .caption {
   text-align: center;
-  max-width: 46ch;
+  max-width: 52ch;
 }
 
 .title {
   font-family: "Book Antiqua", Georgia, serif;
-  font-size: clamp(1.35rem, 2.4vw, 1.75rem);
+  font-size: clamp(1.5rem, 2.6vw, 2rem);
   font-weight: 400;
-  color: var(--cream);
-  line-height: 1.2;
+  line-height: 1.15;
 }
 
 .subtitle {
-  font-size: 0.86rem;
+  font-size: 0.9rem;
   line-height: 1.55;
-  color: rgba(239, 227, 205, 0.6);
-  margin-top: 0.3rem;
+  color: rgba(237, 228, 211, 0.55);
+  margin-top: 0.25rem;
 }
 
-/* ---------- readout panel ---------- */
+/* ---------- printed slips lying on the table ---------- */
 
-.panel {
+.slip {
   position: absolute;
-  right: 1.5rem;
-  top: 4.5rem;
-  width: 236px;
-  background: rgba(20, 13, 5, 0.82);
-  border: 1px solid rgba(201, 162, 39, 0.28);
-  border-radius: 12px;
-  padding: 1rem;
-  backdrop-filter: blur(6px);
+  z-index: 3;
+  width: 250px;
+  background: var(--paper);
+  color: var(--ink);
+  border: 1px solid var(--paperEdge);
+  border-radius: 2px;
+  padding: 0.95rem 1rem 1.05rem;
+  box-shadow: 0 18px 26px -14px rgba(0, 0, 0, 0.75),
+    0 2px 0 rgba(0, 0, 0, 0.25);
 }
 
-.panelLabel {
-  font-size: 0.64rem;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: rgba(239, 227, 205, 0.55);
+.slipLeft {
+  left: 1.75rem;
+  top: 50%;
+  transform: translateY(-50%) rotate(-0.8deg);
+}
+
+.slipRight {
+  right: 1.75rem;
+  top: 50%;
+  transform: translateY(-50%) rotate(0.7deg);
+}
+
+.slipTitle {
+  font-family: "Book Antiqua", Georgia, serif;
+  font-size: 1.05rem;
+  border-bottom: 1px solid var(--paperEdge);
+  padding-bottom: 0.45rem;
   margin-bottom: 0.7rem;
   display: flex;
+  align-items: baseline;
   justify-content: space-between;
   gap: 0.5rem;
 }
 
-.panelScore {
-  color: var(--brass);
-  font-weight: 700;
+.slipScore {
+  font-size: 0.9rem;
+  color: var(--clay);
 }
 
-.spotList {
-  margin-top: 1rem;
-  border-top: 1px solid rgba(239, 227, 205, 0.12);
-  padding-top: 0.8rem;
-  display: grid;
-  gap: 0.4rem;
-}
-
-.spotRow {
+.rule {
   display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-size: 0.74rem;
-  color: rgba(239, 227, 205, 0.75);
+  align-items: flex-start;
+  gap: 0.55rem;
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 0;
+  padding: 0.3rem 0;
+  cursor: pointer;
+  color: inherit;
+  font: inherit;
 }
 
-.spotRank {
-  width: 17px;
-  height: 17px;
+.box {
+  width: 15px;
+  height: 15px;
   flex: none;
-  border-radius: 999px;
-  background: var(--brass);
-  color: #1a1209;
+  margin-top: 0.15rem;
+  border: 1.5px solid var(--ink);
+  border-radius: 2px;
   display: grid;
   place-items: center;
-  font-size: 0.62rem;
-  font-weight: 700;
+  background: #fffaf0;
 }
 
-.spotPips {
-  margin-left: auto;
-  font-weight: 700;
-  color: var(--cream);
-  font-variant-numeric: tabular-nums;
+.boxOn {
+  background: var(--clay);
+  border-color: var(--clay);
 }
 
-/* ---------- the floating control bar ---------- */
+.boxOn::after {
+  content: "";
+  width: 7px;
+  height: 4px;
+  border-left: 2px solid #fff;
+  border-bottom: 2px solid #fff;
+  transform: translateY(-1px) rotate(-45deg);
+}
 
-.hud {
+.ruleText {
+  font-size: 0.84rem;
+  line-height: 1.35;
+}
+
+.ruleHint {
+  display: block;
+  font-size: 0.74rem;
+  color: var(--inkSoft);
+  margin-top: 0.1rem;
+}
+
+/* ---------- the control rail ---------- */
+
+.rail {
   position: absolute;
-  bottom: 1.4rem;
+  z-index: 4;
+  bottom: 1.6rem;
   left: 50%;
   transform: translateX(-50%);
   display: flex;
-  align-items: center;
+  align-items: stretch;
   gap: 0.5rem;
-  background: rgba(20, 13, 5, 0.88);
-  border: 1px solid rgba(201, 162, 39, 0.35);
-  border-radius: 999px;
   padding: 0.5rem;
-  backdrop-filter: blur(8px);
-  box-shadow: 0 20px 40px -14px rgba(0, 0, 0, 0.85);
-  z-index: 5;
+  border-radius: 5px;
+  background: linear-gradient(180deg, #4a3520 0%, #2f2013 100%);
+  border: 1px solid #5d452b;
+  box-shadow: inset 0 1px 0 rgba(255, 236, 200, 0.18),
+    0 10px 0 -2px #17100a, 0 26px 34px -18px rgba(0, 0, 0, 0.9);
 }
 
 .seg {
   display: flex;
-  background: rgba(239, 227, 205, 0.08);
-  border-radius: 999px;
-  padding: 3px;
-  gap: 3px;
+  border-radius: 3px;
+  overflow: hidden;
+  border: 1px solid #1c1309;
 }
 
 .segBtn {
   border: 0;
-  background: transparent;
-  color: rgba(239, 227, 205, 0.75);
-  border-radius: 999px;
-  padding: 0.55rem 1rem;
-  font-size: 0.74rem;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
+  background: #3c2a19;
+  color: rgba(237, 228, 211, 0.72);
+  padding: 0.7rem 1.15rem;
+  font-size: 0.92rem;
   cursor: pointer;
-  white-space: nowrap;
+  font-family: inherit;
+}
+
+.segBtn + .segBtn {
+  border-left: 1px solid #1c1309;
 }
 
 .segBtn:hover {
-  color: var(--cream);
+  color: var(--paper);
+  background: #4a341f;
 }
 
 .segOn {
-  background: var(--brass);
-  color: #1a1209;
+  background: var(--paper);
+  color: var(--ink);
   font-weight: 600;
+}
+
+.segOn:hover {
+  background: var(--paper);
+  color: var(--ink);
 }
 
 .shuffle {
-  border: 0;
-  border-radius: 999px;
-  background: var(--brass);
-  color: #1a1209;
-  padding: 0.7rem 1.6rem;
-  font-size: 0.8rem;
-  font-weight: 700;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
+  border: 1px solid #6d2a1a;
+  border-radius: 3px;
+  background: linear-gradient(180deg, #b94b31 0%, #97381f 100%);
+  color: #fff5e8;
+  padding: 0.7rem 1.9rem;
+  font-size: 1rem;
+  font-weight: 600;
+  font-family: "Book Antiqua", Georgia, serif;
   cursor: pointer;
-  white-space: nowrap;
-  transition: transform 0.08s ease, background 0.15s ease;
+  box-shadow: inset 0 1px 0 rgba(255, 220, 190, 0.35), 0 4px 0 #6d2a1a;
+  transition: transform 0.06s ease, box-shadow 0.06s ease;
 }
 
 .shuffle:hover {
-  background: #dcb434;
+  background: linear-gradient(180deg, #c85436 0%, #a13d22 100%);
 }
 
 .shuffle:active {
-  transform: translateY(2px);
+  transform: translateY(4px);
+  box-shadow: inset 0 1px 0 rgba(255, 220, 190, 0.35), 0 0 0 #6d2a1a;
 }
 
-.pill {
-  border: 1px solid rgba(239, 227, 205, 0.22);
-  background: transparent;
-  color: var(--cream);
-  border-radius: 999px;
-  padding: 0.62rem 1.05rem;
-  cursor: pointer;
-  font-size: 0.74rem;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  white-space: nowrap;
+.railToggle {
+  display: none;
 }
 
-.pill:hover {
-  background: rgba(239, 227, 205, 0.12);
+/* ---------- the printed sheet below the table ---------- */
+
+.sheet {
+  position: relative;
+  background: var(--paper);
+  color: var(--ink);
+  padding: 3.5rem 1.5rem 2.5rem;
+  border-top: 3px solid #0f0a05;
+  box-shadow: 0 -22px 40px -30px rgba(0, 0, 0, 0.9) inset;
 }
 
-.pillOn {
-  background: rgba(201, 162, 39, 0.22);
-  border-color: var(--brass);
-  color: var(--brass);
-}
-
-.scrollCue {
-  position: absolute;
-  bottom: 0.3rem;
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: 0.6rem;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: rgba(239, 227, 205, 0.35);
-  text-decoration: none;
-}
-
-.scrollCue:hover {
-  color: rgba(239, 227, 205, 0.7);
-}
-
-/* ---------- the written page below the fold ---------- */
-
-.content {
-  background: #17100a;
-  border-top: 1px solid rgba(201, 162, 39, 0.25);
-  padding: 3.75rem 1.5rem 3rem;
-}
-
-.inner {
-  max-width: 1040px;
+.sheetInner {
+  max-width: 1000px;
   margin: 0 auto;
 }
 
-.kicker {
-  font-size: 0.64rem;
-  letter-spacing: 0.24em;
-  text-transform: uppercase;
-  color: var(--brass);
-  margin-bottom: 0.8rem;
-}
-
-.h2 {
+.lead {
   font-family: "Book Antiqua", Georgia, serif;
-  font-size: clamp(1.5rem, 3vw, 2rem);
-  font-weight: 400;
-  color: var(--cream);
+  font-size: clamp(1.15rem, 2.1vw, 1.45rem);
+  line-height: 1.55;
+  max-width: 40ch;
   margin-bottom: 0.9rem;
 }
 
-.h3 {
-  font-size: 1rem;
-  font-weight: 600;
-  color: var(--cream);
-  margin-bottom: 0.35rem;
-}
-
-.p {
+.leadNote {
   line-height: 1.75;
-  color: rgba(239, 227, 205, 0.72);
-  max-width: 68ch;
-  margin-bottom: 0.9rem;
-}
-
-.answer {
-  border-left: 3px solid var(--brass);
-  background: rgba(201, 162, 39, 0.07);
-  padding: 1rem 1.25rem;
-  line-height: 1.7;
-  color: rgba(239, 227, 205, 0.9);
-  margin-bottom: 2.75rem;
-  max-width: 70ch;
+  color: var(--inkSoft);
+  max-width: 62ch;
+  margin-bottom: 3rem;
 }
 
 .section {
   margin-bottom: 3rem;
 }
 
+.h2 {
+  font-family: "Book Antiqua", Georgia, serif;
+  font-size: 1.55rem;
+  font-weight: 400;
+  margin-bottom: 0.7rem;
+}
+
+.h3 {
+  font-size: 0.98rem;
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+}
+
+.p {
+  line-height: 1.75;
+  color: #47392c;
+  max-width: 64ch;
+  margin-bottom: 0.85rem;
+}
+
+/* Numbered steps, because setting up a board really is a sequence. */
 .steps {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-  gap: 1px;
-  background: rgba(201, 162, 39, 0.22);
-  border: 1px solid rgba(201, 162, 39, 0.22);
-  border-radius: 10px;
-  overflow: hidden;
   list-style: none;
+  counter-reset: step;
+  border-top: 1px solid var(--paperEdge);
+  max-width: 64ch;
 }
 
 .step {
-  background: #1d140c;
-  padding: 1.3rem;
+  counter-increment: step;
+  border-bottom: 1px solid var(--paperEdge);
+  padding: 0.95rem 0 0.95rem 2.6rem;
+  position: relative;
 }
 
-.stepNum {
+.step::before {
+  content: counter(step);
+  position: absolute;
+  left: 0;
+  top: 0.9rem;
   font-family: "Book Antiqua", Georgia, serif;
-  font-size: 1.7rem;
-  color: var(--brass);
+  font-size: 1.35rem;
+  color: var(--clay);
   line-height: 1;
-  margin-bottom: 0.5rem;
 }
 
 .stepText {
   font-size: 0.9rem;
   line-height: 1.65;
-  color: rgba(239, 227, 205, 0.62);
+  color: var(--inkSoft);
 }
 
 .cols {
@@ -376,127 +400,135 @@
   gap: 3rem;
 }
 
-.table {
+.table2 {
   width: 100%;
   border-collapse: collapse;
-  font-size: 0.88rem;
+  font-size: 0.9rem;
+  max-width: 420px;
 }
 
-.table caption {
+.table2 caption {
   text-align: left;
-  font-size: 0.8rem;
-  color: rgba(239, 227, 205, 0.55);
-  padding-bottom: 0.7rem;
+  font-size: 0.84rem;
+  color: var(--inkSoft);
+  padding-bottom: 0.6rem;
 }
 
-.table th {
+.table2 th {
   text-align: left;
-  font-size: 0.62rem;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--brass);
-  font-weight: 500;
-  padding-bottom: 0.5rem;
-  border-bottom: 1px solid rgba(201, 162, 39, 0.3);
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--inkSoft);
+  padding-bottom: 0.4rem;
+  border-bottom: 1px solid var(--ink);
 }
 
-.table td {
-  padding: 0.45rem 0;
-  border-bottom: 1px solid rgba(239, 227, 205, 0.1);
+.table2 td {
+  padding: 0.4rem 0;
+  border-bottom: 1px solid var(--paperEdge);
   font-variant-numeric: tabular-nums;
-  color: rgba(239, 227, 205, 0.82);
 }
 
-.tableBar {
+.bar {
   display: inline-block;
-  height: 7px;
-  background: var(--brass);
-  border-radius: 1px;
+  height: 8px;
+  background: var(--clay);
   vertical-align: middle;
 }
 
 .faqItem {
-  border-bottom: 1px solid rgba(239, 227, 205, 0.14);
-  padding: 0.85rem 0;
+  border-bottom: 1px solid var(--paperEdge);
+  padding: 0.9rem 0;
 }
 
-.faqItem:first-child {
-  padding-top: 0;
+.faqItem:first-of-type {
+  border-top: 1px solid var(--paperEdge);
 }
 
 .faqA {
   font-size: 0.9rem;
   line-height: 1.7;
-  color: rgba(239, 227, 205, 0.62);
+  color: var(--inkSoft);
   max-width: 62ch;
 }
 
-.linkRow {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-  margin-top: 1rem;
-}
-
-.link {
-  border: 1px solid rgba(239, 227, 205, 0.2);
-  border-radius: 999px;
-  padding: 0.4rem 0.9rem;
-  font-size: 0.82rem;
-  color: rgba(239, 227, 205, 0.78);
-  background: transparent;
-  cursor: pointer;
-}
-
-.link:hover {
-  border-color: var(--brass);
-  color: var(--brass);
-}
-
-/* ---------- footer ---------- */
-
 .footer {
-  border-top: 1px solid rgba(239, 227, 205, 0.12);
-  padding: 1.5rem;
+  border-top: 1px solid var(--paperEdge);
+  margin-top: 1rem;
+  padding-top: 1.25rem;
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 0.75rem;
-  font-size: 0.8rem;
-  color: rgba(239, 227, 205, 0.5);
+  justify-content: space-between;
+  gap: 1rem;
   flex-wrap: wrap;
+  font-size: 0.84rem;
+  color: var(--inkSoft);
 }
 
 .footerBtn {
   background: none;
   border: 0;
-  color: rgba(239, 227, 205, 0.72);
+  padding: 0;
+  color: var(--sea);
   cursor: pointer;
-  font-size: 0.8rem;
+  font: inherit;
   text-decoration: underline;
   text-underline-offset: 3px;
-  padding: 0;
-}
-
-.footerBtn:hover {
-  color: var(--brass);
 }
 
 /* ---------- responsive ---------- */
 
-@media (max-width: 1180px) {
-  .panel {
+@media (max-width: 1280px) {
+  .slip {
+    width: 216px;
+  }
+
+  .slipLeft {
+    left: 1rem;
+  }
+
+  .slipRight {
+    right: 1rem;
+  }
+}
+
+@media (max-width: 1080px) {
+  .table {
+    padding-bottom: 2rem;
+  }
+
+  .slip,
+  .slipLeft,
+  .slipRight {
     position: static;
-    width: min(100%, 420px);
-    margin-top: 0.4rem;
+    transform: none;
+    width: min(100%, 460px);
   }
 
-  .boardWrap {
+  .stage {
+    gap: 1.25rem;
+  }
+
+  .slips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center;
+    width: 100%;
+  }
+
+  .rail {
+    position: sticky;
+    bottom: 1rem;
+    left: auto;
+    transform: none;
+    margin: 1.25rem auto 0;
+    width: max-content;
+    max-width: 100%;
+  }
+
+  .boardSlot {
     width: min(100%, 560px);
-  }
-
-  .app {
-    padding-bottom: 7.5rem;
   }
 }
 
@@ -506,40 +538,29 @@
     gap: 2.25rem;
   }
 
-  .hud {
+  .rail {
     flex-wrap: wrap;
     justify-content: center;
-    border-radius: 18px;
-    width: calc(100% - 2rem);
-    bottom: 1rem;
+    width: 100%;
   }
 
   .shuffle {
     flex: 1;
-    text-align: center;
   }
 
-  .boardWrap {
-    width: 100%;
+  .sheet {
+    padding-top: 2.5rem;
   }
 
-  .app {
-    padding-bottom: 9.5rem;
-  }
-
-  .content {
-    padding-top: 2.75rem;
-  }
-
-  .topbar {
-    font-size: 0.6rem;
-    letter-spacing: 0.16em;
+  .head {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.15rem;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .shuffle,
-  .chartFill {
+  .shuffle {
     transition: none;
   }
 }

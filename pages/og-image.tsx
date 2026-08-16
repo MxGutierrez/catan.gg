@@ -1,11 +1,13 @@
 import Head from "next/head";
-import Board from "@/components/Board";
-import { ResourceChart } from "@/components/Board";
+import Board, { ResourceChart } from "@/components/Board";
 import { CLASSIC, Tile, offsetsFor, pipsByResource } from "@/lib/board";
 
 /**
- * The source for /og.png. Open this page, centre it in a viewport larger than
- * 1200 x 630, screenshot it, then crop the screenshot to 1200 x 630.
+ * The source for /og.png, kept so the card can be redrawn when the design
+ * changes. Open this page in a viewport larger than 1200 x 630, screenshot
+ * it, then crop the screenshot to 1200 x 630 from the centre.
+ *
+ * next.config.js keeps this page out of the exported site.
  */
 const BOARD: Tile[] = [
   { resource: "ore", num: 10 },
@@ -29,6 +31,9 @@ const BOARD: Tile[] = [
   { resource: "sheep", num: 11 },
 ];
 
+const GRAIN =
+  "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E\")";
+
 export default function OgImage() {
   const offsets = offsetsFor(CLASSIC);
   const pips = pipsByResource(BOARD);
@@ -46,55 +51,76 @@ export default function OgImage() {
           display: "grid",
           placeItems: "center",
           background: "#0b0906",
+          overflow: "hidden",
         }}
       >
         <div
           style={{
-            width: 1200,
-            height: 630,
+            position: "relative",
+            width: "100vw",
+            height: "calc(100vw * 630 / 1200)",
+            zoom: "calc(100vw / 1200)",
             display: "grid",
-            gridTemplateColumns: "560px 1fr",
+            gridTemplateColumns: "545px 1fr",
             alignItems: "center",
-            gap: 48,
-            padding: "0 56px",
+            gap: 56,
+            padding: "0 60px",
             background:
-              "radial-gradient(70% 90% at 26% 50%, #6b4a28 0%, #35230f 46%, #150e06 100%), #1a1209",
-            color: "#efe3cd",
-            fontFamily: '"Euclid Circular", ui-sans-serif, system-ui, sans-serif',
+              "radial-gradient(80% 70% at 30% 46%, #5f4326 0%, #3a2917 44%, #1d1409 80%, #140d07 100%), #2b1e12",
+            color: "#ede4d3",
+            fontFamily:
+              '"Euclid Circular", ui-sans-serif, system-ui, sans-serif',
             overflow: "hidden",
           }}
         >
           <div
             style={{
-              borderRadius: "50%",
-              background:
-                "radial-gradient(circle at 50% 48%, #9a6f3c 0%, #6d4a24 58%, rgba(109,74,36,0) 70%)",
-              filter: "drop-shadow(0 40px 50px rgba(0,0,0,.75))",
+              position: "absolute",
+              inset: 0,
+              backgroundImage: GRAIN,
+              opacity: 0.34,
+              mixBlendMode: "overlay",
+            }}
+          />
+
+          <div
+            style={{
+              position: "relative",
+              aspectRatio: "1 / 0.866025404",
             }}
           >
-            <Board board={BOARD} offsets={offsets} mode="normal" />
-          </div>
-
-          <div>
             <div
               style={{
-                fontSize: 15,
-                letterSpacing: "0.32em",
-                textTransform: "uppercase",
-                color: "#c9a227",
-                marginBottom: 22,
+                position: "absolute",
+                left: 0,
+                right: 0,
+                top: "50%",
+                transform: "translateY(-50%)",
+                filter: "drop-shadow(0 34px 40px rgba(0,0,0,.7))",
               }}
             >
-              catan.gg
+              <Board board={BOARD} offsets={offsets} mode="normal" />
+            </div>
+          </div>
+
+          <div style={{ position: "relative" }}>
+            <div
+              style={{
+                fontFamily: '"Book Antiqua", Georgia, serif',
+                fontSize: 24,
+                marginBottom: 18,
+              }}
+            >
+              catan<span style={{ color: "#c08a3e" }}>.gg</span>
             </div>
 
             <h1
               style={{
                 fontFamily: '"Book Antiqua", Georgia, serif',
-                fontSize: 62,
-                lineHeight: 1.05,
-                color: "#efe3cd",
-                marginBottom: 20,
+                fontSize: 58,
+                fontWeight: 400,
+                lineHeight: 1.06,
+                marginBottom: 18,
               }}
             >
               Catan board
@@ -104,23 +130,48 @@ export default function OgImage() {
 
             <p
               style={{
-                fontSize: 21,
+                fontSize: 20,
                 lineHeight: 1.5,
-                color: "rgba(239,227,205,.72)",
-                maxWidth: "24ch",
-                marginBottom: 30,
+                color: "rgba(237,228,211,.62)",
+                maxWidth: "26ch",
+                marginBottom: 28,
               }}
             >
-              A random board in one tap. Classic map and the 5–6 player map.
+              A random board for the classic map or the expansion, with the
+              setup rules you choose.
             </p>
 
-            <div style={{ maxWidth: 300 }}>
+            <div
+              style={{
+                width: 300,
+                background: "#ede4d3",
+                color: "#241c14",
+                border: "1px solid #cdbd9f",
+                borderRadius: 2,
+                padding: "14px 16px 16px",
+                transform: "rotate(0.7deg)",
+                boxShadow: "0 18px 26px -14px rgba(0,0,0,.75)",
+              }}
+            >
+              <div
+                style={{
+                  fontFamily: '"Book Antiqua", Georgia, serif',
+                  fontSize: 17,
+                  borderBottom: "1px solid #cdbd9f",
+                  paddingBottom: 7,
+                  marginBottom: 11,
+                  display: "flex",
+                  justifyContent: "space-between",
+                }}
+              >
+                Resource balance
+                <span style={{ fontSize: 15, color: "#a6412b" }}>93/100</span>
+              </div>
               <ResourceChart
-                board={BOARD}
                 pips={pips}
-                barHeight={58}
-                axisColor="rgba(239,227,205,.22)"
-                valueColor="#efe3cd"
+                barHeight={56}
+                axisColor="#cdbd9f"
+                valueColor="#241c14"
               />
             </div>
           </div>
