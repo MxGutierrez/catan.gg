@@ -38,8 +38,10 @@ deploy: build sync invalidate
 build:
 	npm run build
 
+# Finder drops .DS_Store into public/, next copies public/ into out/, and the
+# sync then publishes it. The file lists the folder contents, so keep it out.
 sync:
-	aws s3 sync ./out/ s3://$(BUCKET) --delete
+	aws s3 sync ./out/ s3://$(BUCKET) --delete --exclude "*.DS_Store" --exclude "*/.DS_Store"
 
 invalidate:
 	@echo "Invalidating CloudFront..."
