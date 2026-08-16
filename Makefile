@@ -12,9 +12,24 @@ DIST_ID = aws cloudfront list-distributions \
 	--query "DistributionList.Items[?Aliases.Items != null && contains(Aliases.Items,'$(BUCKET)')].Id | [0]" \
 	--output text
 
-# Deploy the infrastructure. Every value it needs is set above.
+STACK := catangg
+CF_PARAMS := AcmCertificateArn=$(ACM_CERTIFICATE_ARN) ContactFormMailTo=$(MAIL_TO) SESIdentityName=$(MAIL_TO)
+CF_CAPS := CAPABILITY_IAM CAPABILITY_AUTO_EXPAND
+
+# The lambda uses InlineCode, so there is nothing to package and `sam build`
+# adds nothing. The aws cli drives CloudFormation directly, which also avoids
+# the broken expat module in the sam cli on macOS.
+#
+# Read the changeset before you apply it. The last deploy would have failed
+# had it touched the lambda, because that runtime was deprecated.
+cf-preview:
+	aws cloudformation deploy --template-file template.yml --stack-name $(STACK) \
+		--parameter-overrides $(CF_PARAMS) --capabilities $(CF_CAPS) --no-execute-changeset
+
+# Rollback stays on. A failed update should undo itself, not sit half applied.
 cf-deploy:
-	sam build && sam deploy --stack-name catangg --parameter-overrides AcmCertificateArn=$(ACM_CERTIFICATE_ARN) ContactFormMailTo=$(MAIL_TO) SESIdentityName=$(MAIL_TO) --no-confirm-changeset --capabilities CAPABILITY_IAM --disable-rollback
+	aws cloudformation deploy --template-file template.yml --stack-name $(STACK) \
+		--parameter-overrides $(CF_PARAMS) --capabilities $(CF_CAPS)
 
 # Deploy the site. The sync alone is not enough: CloudFront caches the HTML,
 # so the edge keeps serving the old pages until they are invalidated.
@@ -34,4 +49,4 @@ invalidate:
 		--query "Invalidation.{Id:Id,Status:Status}" \
 		--output table
 
-.PHONY: cf-deploy deploy build sync invalidate
+.PHONY: cf-preview cf-deploy deploy build sync invalidate

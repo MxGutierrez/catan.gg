@@ -187,7 +187,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       Handler: index.handler
-      Runtime: nodejs16.x
+      Runtime: nodejs22.x
       Environment:
         Variables:
           MAIL_TO: !Ref ContactFormMailTo
@@ -195,15 +195,17 @@ Resources:
         - SESCrudPolicy:
             IdentityName: !Ref SESIdentityName
       InlineCode: |
-        const aws = require("aws-sdk");
-        const ses = new aws.SES();
+        // The Node 18 and later runtimes carry the AWS SDK v3, not v2.
+        const { SESClient, SendEmailCommand } = require("@aws-sdk/client-ses");
+
+        const ses = new SESClient({});
 
         exports.handler = async function (event) {
           console.info("Event: ", event);
 
           const body = JSON.parse(event.body);
 
-          var params = {
+          const command = new SendEmailCommand({
             Source: process.env.MAIL_TO,
             Destination: {
               ToAddresses: [process.env.MAIL_TO],
@@ -217,9 +219,9 @@ Resources:
                 },
               },
             },
-          };
+          });
 
-          await ses.sendEmail(params).promise();
+          await ses.send(command);
 
           return {
             statusCode: 200,
