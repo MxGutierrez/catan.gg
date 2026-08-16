@@ -1,0 +1,206 @@
+/* The board and the resource chart. Both scale with their container. */
+
+.board {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 0.866025404;
+  container-type: inline-size;
+}
+
+.frame {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.tile {
+  position: absolute;
+  transform: translate(-50%, -50%);
+}
+
+.tileNormal {
+  height: 17.5%;
+  width: calc(17.5% * 0.866);
+}
+
+.tileExpanded {
+  height: 16%;
+  width: calc(16.5% * 0.866);
+  transform: translate(-50%, -50%) rotate(90deg);
+}
+
+.tileInner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tilePic {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.tilePic img {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.token {
+  position: relative;
+  z-index: 1;
+  width: 45%;
+  height: calc(45% * 1.73205 / 2);
+  background: #f5dba3;
+  border-radius: 999px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-family: "Book Antiqua", Georgia, serif;
+  color: #241a12;
+  box-shadow: -1px 10px 19px -7px rgba(0, 0, 0, 0.74);
+}
+
+.tokenExpanded {
+  transform: rotate(-90deg);
+}
+
+.tokenHot {
+  color: #b91c1c;
+}
+
+.tokenNum {
+  font-weight: 700;
+  font-size: 4cqw;
+  line-height: 0.8;
+  margin-top: 0.1em;
+}
+
+.tokenNumWide {
+  font-size: 3.6cqw;
+}
+
+.tokenPips {
+  font-size: 3cqw;
+  line-height: 0.4;
+  letter-spacing: 0.02em;
+}
+
+.tileExpanded .tokenNum {
+  font-size: 3.6cqw;
+}
+
+.tileExpanded .tokenNumWide {
+  font-size: 3.25cqw;
+}
+
+.tileExpanded .tokenPips {
+  font-size: 2.7cqw;
+}
+
+/* ---------- best settlement spots ---------- */
+
+.spot {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  width: 3.8%;
+  aspect-ratio: 1;
+  border-radius: 999px;
+  background: #c9a227;
+  border: 2px solid #fffaf0;
+  color: #1a1209;
+  display: grid;
+  place-items: center;
+  font-size: 1.8cqw;
+  font-weight: 700;
+  line-height: 1;
+  z-index: 2;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.55);
+  animation: spotIn 0.35s ease both;
+}
+
+.spot:nth-child(2) {
+  animation-delay: 0.05s;
+}
+
+.spot:nth-child(3) {
+  animation-delay: 0.1s;
+}
+
+.spot:nth-child(4) {
+  animation-delay: 0.15s;
+}
+
+@keyframes spotIn {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.4);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+/* ---------- resource chart ---------- */
+
+.chart {
+  display: flex;
+  align-items: flex-end;
+  gap: 0.6rem;
+}
+
+.chartCol {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.chartVal {
+  font-size: 0.8rem;
+  font-weight: 700;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+.chartTrack {
+  width: 100%;
+  display: flex;
+  align-items: flex-end;
+  border-bottom: 1px solid currentColor;
+}
+
+.chartFill {
+  width: 100%;
+  border-radius: 5px 5px 0 0;
+  min-height: 3px;
+  transition: height 0.3s ease;
+}
+
+.chartIcon {
+  width: 30px;
+  height: 30px;
+  object-fit: contain;
+}
+
+.chartName {
+  font-size: 0.62rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  opacity: 0.7;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .spot,
+  .chartFill {
+    animation: none;
+    transition: none;
+  }
+}

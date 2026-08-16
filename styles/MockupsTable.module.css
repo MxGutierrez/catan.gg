@@ -1,0 +1,1028 @@
+/* ============================================================
+   Four versions of the "Table" direction.
+   Every version has an app view, a fold marker, and a content
+   band below the fold that a crawler and a model can read.
+   ============================================================ */
+
+.fold {
+  position: relative;
+  height: 0;
+  border-top: 1px dashed rgba(255, 255, 255, 0.28);
+}
+
+.foldLight {
+  border-top-color: rgba(0, 0, 0, 0.22);
+}
+
+.foldTag {
+  position: absolute;
+  top: -0.72rem;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 0.6rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  padding: 0.2rem 0.7rem;
+  border-radius: 999px;
+  background: #101315;
+  color: #8d979d;
+  white-space: nowrap;
+}
+
+.foldTagLight {
+  background: #ffffff;
+  color: #6b6257;
+}
+
+/* ============================================================
+   V1 — "Tray"
+   The board on felt, a wooden tray of controls, parchment below.
+   ============================================================ */
+
+.v1 {
+  --felt: #21453a;
+  --wood: #3a2718;
+  --card: #f6ebd4;
+  --clay: #c0512b;
+  --gold: #e3a82b;
+  --ink: #2b1f16;
+}
+
+.v1App {
+  background: radial-gradient(
+    120% 95% at 42% 45%,
+    #35705c 0%,
+    var(--felt) 45%,
+    #16302a 78%,
+    #102420 100%
+  );
+  color: var(--card);
+  min-height: 720px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 372px;
+  gap: 1.5rem;
+  padding: 2.25rem;
+}
+
+.v1Stage {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  justify-content: center;
+}
+
+.v1Title {
+  font-family: "Book Antiqua", Georgia, serif;
+  font-size: clamp(2rem, 3.2vw, 2.9rem);
+  line-height: 1.06;
+  max-width: 18ch;
+}
+
+.v1Title em {
+  font-style: normal;
+  color: var(--gold);
+}
+
+.v1Lede {
+  margin-top: 0.7rem;
+  max-width: 40ch;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: rgba(246, 235, 212, 0.68);
+}
+
+.v1BoardWrap {
+  width: min(100%, 500px);
+  align-self: center;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at 50% 48%,
+    #46836c 0%,
+    #2f6152 62%,
+    rgba(47, 97, 82, 0) 72%
+  );
+  filter: drop-shadow(0 40px 45px rgba(0, 0, 0, 0.55));
+}
+
+.v1Tray {
+  align-self: center;
+  background: linear-gradient(180deg, #3a271a, #24170f);
+  border: 1px solid #4a3423;
+  border-radius: 14px;
+  padding: 1.35rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.15rem;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1),
+    0 30px 50px -20px rgba(0, 0, 0, 0.7);
+}
+
+.v1Label {
+  font-size: 0.68rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(246, 235, 212, 0.5);
+}
+
+.v1Fan {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.6rem;
+}
+
+.v1Card {
+  flex: 1;
+  border-radius: 9px;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  background: var(--card);
+  color: var(--ink);
+  padding: 0.75rem 0.6rem;
+  text-align: left;
+  cursor: pointer;
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+  box-shadow: 0 6px 12px -6px rgba(0, 0, 0, 0.6);
+}
+
+.v1Card:first-child {
+  transform: rotate(-2.5deg);
+}
+
+.v1Card:last-child {
+  transform: rotate(2.5deg);
+}
+
+.v1Card:hover {
+  transform: translateY(-4px) rotate(0deg);
+}
+
+.v1CardOn {
+  background: var(--gold);
+  transform: translateY(-6px) rotate(0deg) !important;
+}
+
+.v1CardTop {
+  font-family: "Book Antiqua", Georgia, serif;
+  font-size: 1.05rem;
+  font-weight: 700;
+}
+
+.v1CardSub {
+  font-size: 0.7rem;
+  opacity: 0.62;
+  margin-top: 0.1rem;
+}
+
+.v1Shuffle {
+  width: 100%;
+  border: 0;
+  border-radius: 10px;
+  background: var(--clay);
+  color: #fff;
+  padding: 1rem;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 6px 0 #8d3a1e;
+  transition: transform 0.08s ease, box-shadow 0.08s ease;
+}
+
+.v1Shuffle:active {
+  transform: translateY(4px);
+  box-shadow: 0 2px 0 #8d3a1e;
+}
+
+.v1Divider {
+  height: 1px;
+  background: rgba(246, 235, 212, 0.14);
+}
+
+.v1Scroll {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-size: 0.78rem;
+  color: rgba(246, 235, 212, 0.55);
+  padding-bottom: 1.25rem;
+}
+
+/* --- v1 content band: parchment --- */
+
+.v1Seo {
+  background: var(--card);
+  color: var(--ink);
+  padding: 3.5rem 2.25rem 4rem;
+  border-top: 6px solid var(--wood);
+}
+
+.v1SeoInner {
+  max-width: 980px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 300px;
+  gap: 3rem;
+}
+
+.v1H2 {
+  font-family: "Book Antiqua", Georgia, serif;
+  font-size: 1.9rem;
+  margin-bottom: 0.6rem;
+}
+
+.v1H3 {
+  font-family: "Book Antiqua", Georgia, serif;
+  font-size: 1.2rem;
+  margin: 1.8rem 0 0.4rem;
+}
+
+.v1P {
+  line-height: 1.72;
+  margin-bottom: 0.85rem;
+  max-width: 66ch;
+  color: #4a3a2c;
+}
+
+.v1Answer {
+  border-left: 3px solid var(--clay);
+  padding: 0.9rem 1.1rem;
+  background: rgba(192, 81, 43, 0.07);
+  margin-bottom: 1.6rem;
+  line-height: 1.65;
+}
+
+.v1FaqItem {
+  border-bottom: 1px solid rgba(43, 31, 22, 0.16);
+  padding: 0.85rem 0;
+}
+
+.v1FaqQ {
+  font-weight: 600;
+  margin-bottom: 0.3rem;
+}
+
+.v1FaqA {
+  font-size: 0.92rem;
+  line-height: 1.65;
+  color: #6b5645;
+  max-width: 62ch;
+}
+
+.v1Aside {
+  border: 1px solid rgba(43, 31, 22, 0.18);
+  border-radius: 10px;
+  padding: 1.1rem;
+  height: max-content;
+  background: rgba(255, 255, 255, 0.4);
+}
+
+.v1AsideList {
+  display: grid;
+  gap: 0.5rem;
+  margin-top: 0.7rem;
+}
+
+.v1AsideList a {
+  color: var(--clay);
+  text-decoration: none;
+  font-size: 0.9rem;
+  border-bottom: 1px solid rgba(192, 81, 43, 0.3);
+  width: max-content;
+}
+
+/* ============================================================
+   V2 — "Overhead"
+   The board under a lamp. Controls are a floating bar.
+   ============================================================ */
+
+.v2 {
+  --wood: #1a1209;
+  --brass: #c9a227;
+  --cream: #efe3cd;
+  --teal: #2f6e63;
+}
+
+.v2App {
+  position: relative;
+  min-height: 760px;
+  background: radial-gradient(
+      70% 60% at 50% 42%,
+      #6b4a28 0%,
+      #35230f 45%,
+      #150e06 100%
+    ),
+    var(--wood);
+  color: var(--cream);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1.5rem 2rem 6.5rem;
+  overflow: hidden;
+}
+
+.v2Bar {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  text-transform: uppercase;
+  letter-spacing: 0.24em;
+  font-size: 0.68rem;
+  color: rgba(239, 227, 205, 0.62);
+}
+
+.v2Brand {
+  color: var(--cream);
+  letter-spacing: 0.3em;
+}
+
+.v2Board {
+  width: min(100%, 620px);
+  margin-top: 1.5rem;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at 50% 48%,
+    #9a6f3c 0%,
+    #6d4a24 58%,
+    rgba(109, 74, 36, 0) 70%
+  );
+  filter: drop-shadow(0 50px 60px rgba(0, 0, 0, 0.7));
+}
+
+.v2Caption {
+  margin-top: 1.25rem;
+  text-align: center;
+}
+
+.v2Caption h1 {
+  font-family: "Book Antiqua", Georgia, serif;
+  font-size: 1.6rem;
+  color: var(--cream);
+}
+
+.v2Caption p {
+  font-size: 0.88rem;
+  color: rgba(239, 227, 205, 0.6);
+  margin-top: 0.3rem;
+}
+
+.v2Hud {
+  position: absolute;
+  bottom: 1.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(20, 13, 5, 0.86);
+  border: 1px solid rgba(201, 162, 39, 0.35);
+  border-radius: 999px;
+  padding: 0.5rem;
+  backdrop-filter: blur(8px);
+  box-shadow: 0 20px 40px -14px rgba(0, 0, 0, 0.8);
+}
+
+.v2Seg {
+  display: flex;
+  background: rgba(239, 227, 205, 0.08);
+  border-radius: 999px;
+  padding: 3px;
+  gap: 3px;
+}
+
+.v2SegBtn {
+  border: 0;
+  background: transparent;
+  color: rgba(239, 227, 205, 0.75);
+  border-radius: 999px;
+  padding: 0.5rem 0.95rem;
+  font-size: 0.78rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.v2SegOn {
+  background: var(--brass);
+  color: #1a1209;
+  font-weight: 600;
+}
+
+.v2Shuffle {
+  border: 0;
+  border-radius: 999px;
+  background: var(--brass);
+  color: #1a1209;
+  padding: 0.65rem 1.5rem;
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.v2Pill {
+  border: 1px solid rgba(239, 227, 205, 0.22);
+  background: transparent;
+  color: var(--cream);
+  border-radius: 999px;
+  padding: 0.6rem 1.1rem;
+  cursor: pointer;
+  font-size: 0.78rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.v2Pill:hover {
+  background: rgba(239, 227, 205, 0.12);
+}
+
+.v2Panel {
+  position: absolute;
+  right: 2rem;
+  top: 5rem;
+  width: 232px;
+  background: rgba(20, 13, 5, 0.8);
+  border: 1px solid rgba(201, 162, 39, 0.28);
+  border-radius: 12px;
+  padding: 1rem;
+}
+
+/* --- v2 content band: dark walnut --- */
+
+.v2Seo {
+  background: #17100a;
+  color: rgba(239, 227, 205, 0.82);
+  padding: 3.5rem 2rem 4rem;
+  border-top: 1px solid rgba(201, 162, 39, 0.25);
+}
+
+.v2SeoInner {
+  max-width: 1040px;
+  margin: 0 auto;
+}
+
+.v2Kicker {
+  font-size: 0.66rem;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--brass);
+  margin-bottom: 0.8rem;
+}
+
+.v2H2 {
+  font-family: "Book Antiqua", Georgia, serif;
+  font-size: 2rem;
+  color: var(--cream);
+  margin-bottom: 1.6rem;
+}
+
+.v2Steps {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1px;
+  background: rgba(201, 162, 39, 0.22);
+  border: 1px solid rgba(201, 162, 39, 0.22);
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 2.5rem;
+}
+
+.v2Step {
+  background: #1d140c;
+  padding: 1.3rem;
+}
+
+.v2StepNum {
+  font-family: "Book Antiqua", Georgia, serif;
+  font-size: 1.7rem;
+  color: var(--brass);
+  line-height: 1;
+  margin-bottom: 0.5rem;
+}
+
+.v2StepName {
+  color: var(--cream);
+  font-weight: 600;
+  margin-bottom: 0.3rem;
+}
+
+.v2StepText {
+  font-size: 0.88rem;
+  line-height: 1.6;
+  color: rgba(239, 227, 205, 0.6);
+}
+
+.v2Cols {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 2.5rem;
+}
+
+.v2FaqItem {
+  border-bottom: 1px solid rgba(239, 227, 205, 0.14);
+  padding: 0.8rem 0;
+}
+
+.v2FaqQ {
+  color: var(--cream);
+  font-weight: 600;
+  margin-bottom: 0.28rem;
+}
+
+.v2FaqA {
+  font-size: 0.88rem;
+  line-height: 1.65;
+  color: rgba(239, 227, 205, 0.6);
+}
+
+.v2Table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.86rem;
+}
+
+.v2Table th {
+  text-align: left;
+  font-size: 0.64rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--brass);
+  font-weight: 500;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid rgba(201, 162, 39, 0.3);
+}
+
+.v2Table td {
+  padding: 0.42rem 0;
+  border-bottom: 1px solid rgba(239, 227, 205, 0.1);
+}
+
+/* ============================================================
+   V3 — "Card table"
+   Light parchment page, felt disc, controls as a card rail.
+   ============================================================ */
+
+.v3 {
+  --paper: #f4ecd8;
+  --felt: #2f6b4f;
+  --ink: #2c2418;
+  --red: #b23a2e;
+  --line: #d9cbae;
+}
+
+.v3App {
+  background: var(--paper);
+  color: var(--ink);
+  min-height: 740px;
+  padding: 2rem 2.25rem 2.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.v3Top {
+  width: 100%;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 1rem;
+}
+
+.v3Title {
+  font-size: clamp(1.9rem, 3vw, 2.6rem);
+  line-height: 1.05;
+  letter-spacing: -0.01em;
+}
+
+.v3Sub {
+  font-size: 0.9rem;
+  color: #7a6a55;
+  margin-top: 0.35rem;
+  max-width: 44ch;
+}
+
+.v3Meta {
+  text-align: right;
+  font-size: 0.72rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #8a7a63;
+}
+
+.v3Disc {
+  width: min(100%, 560px);
+  aspect-ratio: 1 / 0.93;
+  border-radius: 50%;
+  background: radial-gradient(circle at 50% 45%, #3d7f5f 0%, var(--felt) 68%, #245641 100%);
+  display: grid;
+  place-items: center;
+  box-shadow: inset 0 0 60px rgba(0, 0, 0, 0.35),
+    0 24px 40px -22px rgba(44, 36, 24, 0.6);
+  padding: 2.5%;
+}
+
+.v3Rail {
+  display: flex;
+  gap: 0.6rem;
+  align-items: stretch;
+  width: min(100%, 720px);
+}
+
+.v3Card {
+  flex: 1;
+  background: #fffaf0;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 0.7rem 0.85rem;
+  text-align: left;
+  cursor: pointer;
+  box-shadow: 0 4px 0 rgba(44, 36, 24, 0.12);
+  transition: transform 0.15s ease;
+}
+
+.v3Card:hover {
+  transform: translateY(-3px);
+}
+
+.v3CardOn {
+  background: var(--ink);
+  color: var(--paper);
+  border-color: var(--ink);
+}
+
+.v3CardKicker {
+  font-size: 0.6rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  opacity: 0.55;
+}
+
+.v3CardName {
+  font-size: 0.98rem;
+  font-weight: 600;
+  margin-top: 0.15rem;
+}
+
+.v3Deal {
+  flex: 1.2;
+  background: var(--red);
+  color: #fff5e8;
+  border: 0;
+  border-radius: 10px;
+  font-size: 1.05rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 4px 0 #8b2b22;
+}
+
+.v3Strip {
+  width: min(100%, 720px);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 250px;
+  gap: 1.5rem;
+  align-items: center;
+  border-top: 1px solid var(--line);
+  padding-top: 1.1rem;
+}
+
+.v3StripLabel {
+  font-size: 0.66rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #8a7a63;
+  margin-bottom: 0.5rem;
+}
+
+.v3Score {
+  text-align: right;
+}
+
+.v3ScoreNum {
+  font-size: 2.4rem;
+  line-height: 1;
+  color: var(--red);
+}
+
+.v3ScoreNum span {
+  font-size: 0.9rem;
+  color: #8a7a63;
+}
+
+/* --- v3 content band: cream, two columns, drop cap --- */
+
+.v3Seo {
+  background: #fffaf0;
+  color: var(--ink);
+  padding: 3.5rem 2.25rem 4rem;
+  border-top: 1px solid var(--line);
+}
+
+.v3SeoInner {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.v3H2 {
+  font-size: 1.8rem;
+  margin-bottom: 0.8rem;
+}
+
+.v3Lead {
+  columns: 2;
+  column-gap: 2.5rem;
+  line-height: 1.75;
+  color: #4c4030;
+}
+
+.v3Lead p {
+  margin-bottom: 0.85rem;
+}
+
+.v3Lead p:first-child::first-letter {
+  float: left;
+  font-size: 3.1rem;
+  line-height: 0.82;
+  padding: 0.12em 0.12em 0 0;
+  color: var(--red);
+}
+
+.v3Split {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 3rem;
+  margin-top: 2.5rem;
+}
+
+.v3Table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.88rem;
+}
+
+.v3Table th {
+  text-align: left;
+  font-size: 0.64rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #8a7a63;
+  font-weight: 500;
+  padding-bottom: 0.45rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.v3Table td {
+  padding: 0.42rem 0;
+  border-bottom: 1px solid rgba(217, 203, 174, 0.6);
+}
+
+.v3Bar {
+  display: inline-block;
+  height: 7px;
+  background: var(--felt);
+  border-radius: 1px;
+  vertical-align: middle;
+}
+
+.v3FaqItem {
+  border-bottom: 1px solid var(--line);
+  padding: 0.8rem 0;
+}
+
+.v3FaqQ {
+  font-weight: 600;
+  margin-bottom: 0.28rem;
+}
+
+.v3FaqA {
+  font-size: 0.9rem;
+  line-height: 1.65;
+  color: #6d5f4b;
+}
+
+/* ============================================================
+   V4 — "Box lid"
+   The page wears the game box. A rules booklet holds the copy.
+   ============================================================ */
+
+.v4 {
+  --band: #7a2e28;
+  --kraft: #d9c7a3;
+  --paper: #fbf5e7;
+  --ink: #2a2118;
+  --gold: #c9992b;
+}
+
+.v4App {
+  background: var(--kraft);
+  color: var(--ink);
+  min-height: 740px;
+}
+
+.v4Band {
+  background: var(--band);
+  color: #f7e9cf;
+  padding: 1.4rem 2.25rem;
+  border-bottom: 3px solid var(--gold);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+}
+
+.v4BandTitle {
+  font-family: "Book Antiqua", Georgia, serif;
+  font-size: clamp(1.5rem, 2.6vw, 2.2rem);
+  letter-spacing: 0.01em;
+}
+
+.v4BandSub {
+  font-size: 0.8rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(247, 233, 207, 0.7);
+  margin-top: 0.2rem;
+}
+
+.v4BandTag {
+  border: 1px solid rgba(247, 233, 207, 0.45);
+  border-radius: 2px;
+  padding: 0.35rem 0.8rem;
+  font-size: 0.68rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.v4Body {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 340px;
+  gap: 2rem;
+  padding: 2.25rem;
+}
+
+.v4BoardWrap {
+  width: min(100%, 560px);
+  margin: 0 auto;
+  padding: 1.1rem;
+  background: var(--paper);
+  border: 1px solid rgba(42, 33, 24, 0.2);
+  box-shadow: 0 18px 34px -22px rgba(42, 33, 24, 0.7);
+}
+
+.v4Booklet {
+  background: var(--paper);
+  border: 1px solid rgba(42, 33, 24, 0.2);
+  padding: 1.4rem;
+  height: max-content;
+  box-shadow: 0 18px 34px -22px rgba(42, 33, 24, 0.7);
+}
+
+.v4BookletTab {
+  display: inline-block;
+  background: var(--band);
+  color: #f7e9cf;
+  font-size: 0.64rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  padding: 0.25rem 0.7rem;
+  margin-bottom: 1rem;
+}
+
+.v4Field {
+  margin-bottom: 1.1rem;
+}
+
+.v4FieldLabel {
+  font-size: 0.66rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #7d6a4f;
+  margin-bottom: 0.45rem;
+}
+
+.v4Seg {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border: 1px solid var(--ink);
+}
+
+.v4SegBtn {
+  border: 0;
+  background: transparent;
+  color: var(--ink);
+  padding: 0.55rem;
+  font-size: 0.82rem;
+  cursor: pointer;
+}
+
+.v4SegBtn + .v4SegBtn {
+  border-left: 1px solid var(--ink);
+}
+
+.v4SegOn {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.v4Shuffle {
+  width: 100%;
+  border: 0;
+  background: var(--band);
+  color: #f7e9cf;
+  padding: 0.9rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+}
+
+.v4Shuffle:hover {
+  background: #8f362f;
+}
+
+.v4Note {
+  font-size: 0.8rem;
+  line-height: 1.6;
+  color: #6f5f47;
+  margin-top: 0.8rem;
+}
+
+/* --- v4 content band: the booklet continues --- */
+
+.v4Seo {
+  background: var(--paper);
+  color: var(--ink);
+  padding: 3.25rem 2.25rem 4rem;
+  border-top: 3px solid var(--gold);
+}
+
+.v4SeoInner {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.v4Rule {
+  display: grid;
+  grid-template-columns: 46px minmax(0, 1fr);
+  gap: 1.1rem;
+  padding: 1.2rem 0;
+  border-bottom: 1px solid rgba(42, 33, 24, 0.16);
+}
+
+.v4RuleNum {
+  font-family: "Book Antiqua", Georgia, serif;
+  font-size: 1.6rem;
+  color: var(--band);
+  line-height: 1;
+  border-right: 1px solid rgba(42, 33, 24, 0.16);
+}
+
+.v4RuleTitle {
+  font-weight: 600;
+  margin-bottom: 0.3rem;
+}
+
+.v4RuleText {
+  font-size: 0.92rem;
+  line-height: 1.7;
+  color: #5b4d3a;
+  max-width: 64ch;
+}
+
+.v4H2 {
+  font-family: "Book Antiqua", Georgia, serif;
+  font-size: 1.8rem;
+  margin: 2.4rem 0 0.4rem;
+}
+
+.v4P {
+  line-height: 1.72;
+  color: #5b4d3a;
+  max-width: 66ch;
+  margin-bottom: 0.8rem;
+}
+
+/* ---------- responsive ---------- */
+
+@media (max-width: 1080px) {
+  .v1App,
+  .v1SeoInner,
+  .v2Cols,
+  .v3Strip,
+  .v3Split,
+  .v4Body {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .v2Panel {
+    position: static;
+    width: 100%;
+    margin-top: 1.25rem;
+  }
+
+  .v3Lead {
+    columns: 1;
+  }
+}

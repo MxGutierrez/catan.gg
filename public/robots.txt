@@ -1,4 +1,21 @@
 User-agent: *
-Disallow: 
+Allow: /
+
+# Answer engines and model crawlers are welcome. The page states the same
+# facts in plain text, so a quote from it stays correct.
+User-agent: GPTBot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
 
 Sitemap: https://catan.gg/sitemap.xml

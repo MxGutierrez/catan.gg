@@ -1,0 +1,545 @@
+/* ============================================================
+   catan.gg — "Overhead"
+   A lamp over a dark table. The board is the hero, the controls
+   float in a bar, and the written answers live below the fold.
+   ============================================================ */
+
+.page {
+  --wood: #1a1209;
+  --brass: #c9a227;
+  --cream: #efe3cd;
+  --clay: #b4552c;
+
+  background: var(--wood);
+  color: var(--cream);
+  min-height: 100vh;
+}
+
+/* ---------- the app view ---------- */
+
+.app {
+  position: relative;
+  min-height: 100vh;
+  min-height: 100svh;
+  background: radial-gradient(
+      72% 62% at 50% 44%,
+      #6b4a28 0%,
+      #35230f 46%,
+      #150e06 100%
+    ),
+    var(--wood);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1.1rem 1.25rem 7rem;
+  overflow: hidden;
+}
+
+.topbar {
+  width: 100%;
+  max-width: 1400px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  font-size: 0.66rem;
+  color: rgba(239, 227, 205, 0.6);
+}
+
+.brand {
+  color: var(--cream);
+  letter-spacing: 0.3em;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.meta {
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+}
+
+.stage {
+  flex: 1;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.9rem;
+  min-height: 0;
+  padding: 0.75rem 0;
+}
+
+.boardWrap {
+  width: min(100%, calc((100vh - 15rem) / 0.866));
+  max-width: 660px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at 50% 48%,
+    #9a6f3c 0%,
+    #6d4a24 58%,
+    rgba(109, 74, 36, 0) 70%
+  );
+  filter: drop-shadow(0 46px 55px rgba(0, 0, 0, 0.72));
+}
+
+.caption {
+  text-align: center;
+  max-width: 46ch;
+}
+
+.title {
+  font-family: "Book Antiqua", Georgia, serif;
+  font-size: clamp(1.35rem, 2.4vw, 1.75rem);
+  font-weight: 400;
+  color: var(--cream);
+  line-height: 1.2;
+}
+
+.subtitle {
+  font-size: 0.86rem;
+  line-height: 1.55;
+  color: rgba(239, 227, 205, 0.6);
+  margin-top: 0.3rem;
+}
+
+/* ---------- readout panel ---------- */
+
+.panel {
+  position: absolute;
+  right: 1.5rem;
+  top: 4.5rem;
+  width: 236px;
+  background: rgba(20, 13, 5, 0.82);
+  border: 1px solid rgba(201, 162, 39, 0.28);
+  border-radius: 12px;
+  padding: 1rem;
+  backdrop-filter: blur(6px);
+}
+
+.panelLabel {
+  font-size: 0.64rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(239, 227, 205, 0.55);
+  margin-bottom: 0.7rem;
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.panelScore {
+  color: var(--brass);
+  font-weight: 700;
+}
+
+.spotList {
+  margin-top: 1rem;
+  border-top: 1px solid rgba(239, 227, 205, 0.12);
+  padding-top: 0.8rem;
+  display: grid;
+  gap: 0.4rem;
+}
+
+.spotRow {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.74rem;
+  color: rgba(239, 227, 205, 0.75);
+}
+
+.spotRank {
+  width: 17px;
+  height: 17px;
+  flex: none;
+  border-radius: 999px;
+  background: var(--brass);
+  color: #1a1209;
+  display: grid;
+  place-items: center;
+  font-size: 0.62rem;
+  font-weight: 700;
+}
+
+.spotPips {
+  margin-left: auto;
+  font-weight: 700;
+  color: var(--cream);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- the floating control bar ---------- */
+
+.hud {
+  position: absolute;
+  bottom: 1.4rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(20, 13, 5, 0.88);
+  border: 1px solid rgba(201, 162, 39, 0.35);
+  border-radius: 999px;
+  padding: 0.5rem;
+  backdrop-filter: blur(8px);
+  box-shadow: 0 20px 40px -14px rgba(0, 0, 0, 0.85);
+  z-index: 5;
+}
+
+.seg {
+  display: flex;
+  background: rgba(239, 227, 205, 0.08);
+  border-radius: 999px;
+  padding: 3px;
+  gap: 3px;
+}
+
+.segBtn {
+  border: 0;
+  background: transparent;
+  color: rgba(239, 227, 205, 0.75);
+  border-radius: 999px;
+  padding: 0.55rem 1rem;
+  font-size: 0.74rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.segBtn:hover {
+  color: var(--cream);
+}
+
+.segOn {
+  background: var(--brass);
+  color: #1a1209;
+  font-weight: 600;
+}
+
+.shuffle {
+  border: 0;
+  border-radius: 999px;
+  background: var(--brass);
+  color: #1a1209;
+  padding: 0.7rem 1.6rem;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: transform 0.08s ease, background 0.15s ease;
+}
+
+.shuffle:hover {
+  background: #dcb434;
+}
+
+.shuffle:active {
+  transform: translateY(2px);
+}
+
+.pill {
+  border: 1px solid rgba(239, 227, 205, 0.22);
+  background: transparent;
+  color: var(--cream);
+  border-radius: 999px;
+  padding: 0.62rem 1.05rem;
+  cursor: pointer;
+  font-size: 0.74rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.pill:hover {
+  background: rgba(239, 227, 205, 0.12);
+}
+
+.pillOn {
+  background: rgba(201, 162, 39, 0.22);
+  border-color: var(--brass);
+  color: var(--brass);
+}
+
+.scrollCue {
+  position: absolute;
+  bottom: 0.3rem;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 0.6rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(239, 227, 205, 0.35);
+  text-decoration: none;
+}
+
+.scrollCue:hover {
+  color: rgba(239, 227, 205, 0.7);
+}
+
+/* ---------- the written page below the fold ---------- */
+
+.content {
+  background: #17100a;
+  border-top: 1px solid rgba(201, 162, 39, 0.25);
+  padding: 3.75rem 1.5rem 3rem;
+}
+
+.inner {
+  max-width: 1040px;
+  margin: 0 auto;
+}
+
+.kicker {
+  font-size: 0.64rem;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--brass);
+  margin-bottom: 0.8rem;
+}
+
+.h2 {
+  font-family: "Book Antiqua", Georgia, serif;
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  font-weight: 400;
+  color: var(--cream);
+  margin-bottom: 0.9rem;
+}
+
+.h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--cream);
+  margin-bottom: 0.35rem;
+}
+
+.p {
+  line-height: 1.75;
+  color: rgba(239, 227, 205, 0.72);
+  max-width: 68ch;
+  margin-bottom: 0.9rem;
+}
+
+.answer {
+  border-left: 3px solid var(--brass);
+  background: rgba(201, 162, 39, 0.07);
+  padding: 1rem 1.25rem;
+  line-height: 1.7;
+  color: rgba(239, 227, 205, 0.9);
+  margin-bottom: 2.75rem;
+  max-width: 70ch;
+}
+
+.section {
+  margin-bottom: 3rem;
+}
+
+.steps {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 1px;
+  background: rgba(201, 162, 39, 0.22);
+  border: 1px solid rgba(201, 162, 39, 0.22);
+  border-radius: 10px;
+  overflow: hidden;
+  list-style: none;
+}
+
+.step {
+  background: #1d140c;
+  padding: 1.3rem;
+}
+
+.stepNum {
+  font-family: "Book Antiqua", Georgia, serif;
+  font-size: 1.7rem;
+  color: var(--brass);
+  line-height: 1;
+  margin-bottom: 0.5rem;
+}
+
+.stepText {
+  font-size: 0.9rem;
+  line-height: 1.65;
+  color: rgba(239, 227, 205, 0.62);
+}
+
+.cols {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 3rem;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.88rem;
+}
+
+.table caption {
+  text-align: left;
+  font-size: 0.8rem;
+  color: rgba(239, 227, 205, 0.55);
+  padding-bottom: 0.7rem;
+}
+
+.table th {
+  text-align: left;
+  font-size: 0.62rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--brass);
+  font-weight: 500;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid rgba(201, 162, 39, 0.3);
+}
+
+.table td {
+  padding: 0.45rem 0;
+  border-bottom: 1px solid rgba(239, 227, 205, 0.1);
+  font-variant-numeric: tabular-nums;
+  color: rgba(239, 227, 205, 0.82);
+}
+
+.tableBar {
+  display: inline-block;
+  height: 7px;
+  background: var(--brass);
+  border-radius: 1px;
+  vertical-align: middle;
+}
+
+.faqItem {
+  border-bottom: 1px solid rgba(239, 227, 205, 0.14);
+  padding: 0.85rem 0;
+}
+
+.faqItem:first-child {
+  padding-top: 0;
+}
+
+.faqA {
+  font-size: 0.9rem;
+  line-height: 1.7;
+  color: rgba(239, 227, 205, 0.62);
+  max-width: 62ch;
+}
+
+.linkRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.link {
+  border: 1px solid rgba(239, 227, 205, 0.2);
+  border-radius: 999px;
+  padding: 0.4rem 0.9rem;
+  font-size: 0.82rem;
+  color: rgba(239, 227, 205, 0.78);
+  background: transparent;
+  cursor: pointer;
+}
+
+.link:hover {
+  border-color: var(--brass);
+  color: var(--brass);
+}
+
+/* ---------- footer ---------- */
+
+.footer {
+  border-top: 1px solid rgba(239, 227, 205, 0.12);
+  padding: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  font-size: 0.8rem;
+  color: rgba(239, 227, 205, 0.5);
+  flex-wrap: wrap;
+}
+
+.footerBtn {
+  background: none;
+  border: 0;
+  color: rgba(239, 227, 205, 0.72);
+  cursor: pointer;
+  font-size: 0.8rem;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  padding: 0;
+}
+
+.footerBtn:hover {
+  color: var(--brass);
+}
+
+/* ---------- responsive ---------- */
+
+@media (max-width: 1180px) {
+  .panel {
+    position: static;
+    width: min(100%, 420px);
+    margin-top: 0.4rem;
+  }
+
+  .boardWrap {
+    width: min(100%, 560px);
+  }
+
+  .app {
+    padding-bottom: 7.5rem;
+  }
+}
+
+@media (max-width: 720px) {
+  .cols {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 2.25rem;
+  }
+
+  .hud {
+    flex-wrap: wrap;
+    justify-content: center;
+    border-radius: 18px;
+    width: calc(100% - 2rem);
+    bottom: 1rem;
+  }
+
+  .shuffle {
+    flex: 1;
+    text-align: center;
+  }
+
+  .boardWrap {
+    width: 100%;
+  }
+
+  .app {
+    padding-bottom: 9.5rem;
+  }
+
+  .content {
+    padding-top: 2.75rem;
+  }
+
+  .topbar {
+    font-size: 0.6rem;
+    letter-spacing: 0.16em;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .shuffle,
+  .chartFill {
+    transition: none;
+  }
+}

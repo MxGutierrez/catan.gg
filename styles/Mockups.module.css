@@ -1,0 +1,1424 @@
+/* ============================================================
+   Mockups page — four design directions for catan.gg
+   Every direction is scoped under its own root class so the
+   palettes and type systems cannot leak into each other.
+   ============================================================ */
+
+/* ---------- page shell ---------- */
+
+.page {
+  background: #101315;
+  color: #e8eaec;
+  min-height: 100vh;
+  padding-bottom: 6rem;
+}
+
+.shellHead {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 4.5rem 1.5rem 2.5rem;
+}
+
+.shellKicker {
+  font-size: 0.72rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #7f8a91;
+  margin-bottom: 1.1rem;
+}
+
+.shellTitle {
+  font-size: clamp(2rem, 4.5vw, 3.1rem);
+  line-height: 1.05;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  margin-bottom: 1rem;
+}
+
+.shellLede {
+  max-width: 62ch;
+  color: #a7b0b6;
+  line-height: 1.65;
+  font-size: 1.02rem;
+}
+
+.auditGrid {
+  max-width: calc(1400px - 3rem);
+  margin: 2.5rem auto 0;
+  display: grid;
+  gap: 1px;
+  background: #24292c;
+  border: 1px solid #24292c;
+  border-radius: 12px;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  overflow: hidden;
+}
+
+.auditCell {
+  background: #171b1d;
+  padding: 1.15rem 1.25rem;
+}
+
+.auditCell dt {
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #d4693f;
+  margin-bottom: 0.45rem;
+}
+
+.auditCell dd {
+  font-size: 0.88rem;
+  line-height: 1.55;
+  color: #9aa3a9;
+}
+
+/* ---------- sticky chooser ---------- */
+
+.chooser {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: rgba(16, 19, 21, 0.92);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid #24292c;
+  margin-top: 3rem;
+}
+
+.chooserInner {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0.7rem 1.5rem;
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  overflow-x: auto;
+}
+
+.chooserLabel {
+  font-size: 0.72rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #6f797f;
+  white-space: nowrap;
+  margin-right: 0.35rem;
+}
+
+.chooserLink {
+  white-space: nowrap;
+  font-size: 0.85rem;
+  padding: 0.4rem 0.8rem;
+  border-radius: 999px;
+  border: 1px solid #2e3438;
+  color: #cfd5d9;
+  text-decoration: none;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.chooserLink:hover,
+.chooserLink:focus-visible {
+  background: #22282c;
+  border-color: #465056;
+}
+
+/* ---------- per-direction wrapper ---------- */
+
+.slot {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 3.5rem 1.5rem 0;
+}
+
+.slotHead {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.75rem 1.25rem;
+  margin-bottom: 0.85rem;
+}
+
+.slotIndex {
+  font-size: 0.72rem;
+  letter-spacing: 0.2em;
+  color: #6f797f;
+}
+
+.slotName {
+  font-size: 1.5rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.slotTag {
+  font-size: 0.75rem;
+  color: #101315;
+  background: #d4693f;
+  border-radius: 999px;
+  padding: 0.2rem 0.65rem;
+  font-weight: 600;
+}
+
+.slotNotes {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 0.9rem 1.75rem;
+  margin-bottom: 1.5rem;
+  max-width: 1100px;
+}
+
+.slotNote {
+  font-size: 0.85rem;
+  line-height: 1.55;
+  color: #98a1a7;
+}
+
+.slotNote b {
+  color: #dfe4e7;
+  font-weight: 600;
+  display: block;
+  margin-bottom: 0.15rem;
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.frame {
+  border-radius: 16px;
+  overflow: clip;
+  border: 1px solid #2a3034;
+  box-shadow: 0 30px 70px -30px rgba(0, 0, 0, 0.9);
+}
+
+/* ============================================================
+   DIRECTION A — "Survey"
+   Cartographic instrument. Plotted board, mono readouts.
+   ============================================================ */
+
+.a {
+  --ink: #0e1b2a;
+  --paper: #eef1f4;
+  --line: #c3d0dc;
+  --orange: #e2571f;
+  --sand: #d9c7a3;
+  --mute: #63798c;
+
+  background: var(--paper);
+  color: var(--ink);
+  display: grid;
+  grid-template-columns: 300px minmax(0, 1fr) 268px;
+  min-height: 760px;
+}
+
+.aRail {
+  border-right: 1px solid var(--line);
+  padding: 1.75rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.6rem;
+}
+
+.aBrand {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 0.78rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--mute);
+}
+
+.aBrandMark {
+  width: 22px;
+  height: 25px;
+  background: var(--ink);
+  clip-path: polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%);
+}
+
+.aTitle {
+  font-size: 2.1rem;
+  line-height: 1.02;
+  letter-spacing: -0.03em;
+  font-weight: 700;
+}
+
+.aLede {
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: var(--mute);
+  margin-top: 0.7rem;
+}
+
+.aFieldLabel {
+  font-size: 0.68rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--mute);
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 0.45rem;
+  margin-bottom: 0.7rem;
+}
+
+.aSeg {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border: 1px solid var(--ink);
+}
+
+.aSegBtn {
+  padding: 0.55rem 0.5rem;
+  font-size: 0.78rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  background: transparent;
+  color: var(--ink);
+  cursor: pointer;
+  border: 0;
+}
+
+.aSegBtn + .aSegBtn {
+  border-left: 1px solid var(--ink);
+}
+
+.aSegOn {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.aChecks {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+
+.aCheck {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 0.83rem;
+  cursor: pointer;
+}
+
+.aCheckBox {
+  width: 15px;
+  height: 15px;
+  border: 1.5px solid var(--ink);
+  display: grid;
+  place-items: center;
+  flex: none;
+}
+
+.aCheckOn {
+  background: var(--orange);
+  border-color: var(--orange);
+}
+
+.aCheckOn::after {
+  content: "";
+  width: 7px;
+  height: 4px;
+  border-left: 2px solid #fff;
+  border-bottom: 2px solid #fff;
+  transform: translateY(-1px) rotate(-45deg);
+}
+
+.aGenerate {
+  margin-top: auto;
+  background: var(--orange);
+  color: #fff;
+  border: 0;
+  padding: 0.95rem 1rem;
+  font-size: 0.86rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.aGenerate:hover {
+  background: #c9481400;
+  background: #c94814;
+}
+
+.aStage {
+  position: relative;
+  padding: 2.5rem;
+  display: grid;
+  place-items: center;
+  background-image: linear-gradient(var(--line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--line) 1px, transparent 1px);
+  background-size: 28px 28px;
+  background-position: -1px -1px;
+  opacity: 1;
+}
+
+.aStageInner {
+  position: relative;
+  width: min(100%, 620px);
+}
+
+.aPlot {
+  position: relative;
+  border: 1px solid var(--ink);
+  background: rgba(255, 255, 255, 0.55);
+  padding: 18px;
+}
+
+.aPlotTick {
+  position: absolute;
+  font-size: 0.6rem;
+  letter-spacing: 0.1em;
+  color: var(--mute);
+}
+
+.aPlotTickTop {
+  top: -1.2rem;
+  left: 0;
+}
+
+.aPlotTickRight {
+  top: -1.2rem;
+  right: 0;
+}
+
+.aPlotTickBottom {
+  bottom: -1.3rem;
+  left: 0;
+}
+
+.aReadout {
+  border-left: 1px solid var(--line);
+  padding: 1.75rem 1.4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.aScore {
+  border: 1px solid var(--ink);
+  padding: 0.9rem 1rem;
+}
+
+.aScoreNum {
+  font-size: 2.6rem;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  font-weight: 700;
+}
+
+.aScoreNum span {
+  font-size: 1rem;
+  color: var(--mute);
+  letter-spacing: 0;
+}
+
+.aScoreCap {
+  font-size: 0.7rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--mute);
+  margin-top: 0.35rem;
+}
+
+.aTable {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.78rem;
+}
+
+.aTable th {
+  text-align: left;
+  font-size: 0.64rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--mute);
+  font-weight: 500;
+  padding-bottom: 0.4rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.aTable td {
+  padding: 0.42rem 0;
+  border-bottom: 1px dotted var(--line);
+}
+
+.aTable td:last-child {
+  text-align: right;
+  font-weight: 700;
+}
+
+.aBar {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.72rem;
+  margin-bottom: 0.35rem;
+}
+
+.aBarName {
+  width: 26px;
+  height: 26px;
+  object-fit: contain;
+  flex: none;
+}
+
+.aBarTrack {
+  flex: 1;
+  height: 8px;
+  background: #dde4ea;
+}
+
+.aBarFill {
+  height: 100%;
+  background: var(--ink);
+}
+
+.aBarVal {
+  width: 20px;
+  text-align: right;
+  font-weight: 700;
+}
+
+/* ============================================================
+   DIRECTION B — "Table"
+   The board on felt. Controls are a physical card tray.
+   ============================================================ */
+
+.b {
+  --felt: #21453a;
+  --feltDark: #16302a;
+  --wood: #2b1d13;
+  --card: #f6ebd4;
+  --clay: #c0512b;
+  --gold: #e3a82b;
+  --ink: #241a12;
+
+  position: relative;
+  background: radial-gradient(
+      120% 95% at 42% 45%,
+      #35705c 0%,
+      var(--felt) 45%,
+      var(--feltDark) 78%,
+      #102420 100%
+    ),
+    var(--feltDark);
+  color: var(--card);
+  min-height: 780px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 380px;
+  gap: 1rem;
+  padding: 2.25rem;
+  font-family: "Euclid Circular", ui-sans-serif, system-ui, sans-serif;
+  overflow: hidden;
+}
+
+.bStage {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+  justify-content: center;
+}
+
+.bBoardWrap {
+  width: min(100%, 500px);
+  align-self: center;
+  border-radius: 50%;
+  background: radial-gradient(circle at 50% 48%, #46836c 0%, #2f6152 62%, rgba(47, 97, 82, 0) 72%);
+  filter: drop-shadow(0 40px 45px rgba(0, 0, 0, 0.55));
+}
+
+.bHeadline {
+  max-width: 34ch;
+}
+
+.bTitle {
+  font-family: "Book Antiqua", Georgia, serif;
+  font-size: clamp(2rem, 3.2vw, 2.9rem);
+  line-height: 1.06;
+  color: var(--card);
+  letter-spacing: -0.01em;
+}
+
+.bTitle em {
+  font-style: normal;
+  color: var(--gold);
+}
+
+.bLede {
+  margin-top: 0.7rem;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: rgba(246, 235, 212, 0.68);
+  max-width: 34ch;
+}
+
+.bTray {
+  background: linear-gradient(180deg, #3a271a, #24170f);
+  border: 1px solid #4a3423;
+  border-radius: 14px;
+  padding: 1.35rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.15rem;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1),
+    0 30px 50px -20px rgba(0, 0, 0, 0.7);
+  align-self: center;
+}
+
+.bTrayLabel {
+  font-size: 0.68rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(246, 235, 212, 0.5);
+}
+
+.bFan {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.bCard {
+  flex: 1;
+  border-radius: 9px;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  background: var(--card);
+  color: var(--ink);
+  padding: 0.75rem 0.6rem;
+  text-align: left;
+  cursor: pointer;
+  transform-origin: bottom center;
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+  box-shadow: 0 6px 12px -6px rgba(0, 0, 0, 0.6);
+}
+
+.bCard:first-child {
+  transform: rotate(-2.5deg);
+}
+
+.bCard:last-child {
+  transform: rotate(2.5deg);
+}
+
+.bCard:hover {
+  transform: translateY(-4px) rotate(0deg);
+}
+
+.bCardOn {
+  background: var(--gold);
+  transform: translateY(-6px) rotate(0deg) !important;
+  box-shadow: 0 12px 22px -8px rgba(0, 0, 0, 0.75);
+}
+
+.bCardTop {
+  font-family: "Book Antiqua", Georgia, serif;
+  font-size: 1.05rem;
+  font-weight: 700;
+}
+
+.bCardSub {
+  font-size: 0.7rem;
+  opacity: 0.62;
+  margin-top: 0.1rem;
+}
+
+.bShuffle {
+  width: 100%;
+  border: 0;
+  border-radius: 10px;
+  background: var(--clay);
+  color: #fff;
+  padding: 1rem;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  box-shadow: 0 6px 0 #8d3a1e;
+  transition: transform 0.08s ease, box-shadow 0.08s ease;
+}
+
+.bShuffle:active {
+  transform: translateY(4px);
+  box-shadow: 0 2px 0 #8d3a1e;
+}
+
+.bDivider {
+  height: 1px;
+  background: rgba(246, 235, 212, 0.14);
+}
+
+.bTracker {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.bDiceRow {
+  display: grid;
+  grid-template-columns: repeat(11, 1fr);
+  gap: 3px;
+}
+
+.bDice {
+  border: 1px solid rgba(246, 235, 212, 0.24);
+  background: rgba(246, 235, 212, 0.06);
+  color: var(--card);
+  border-radius: 5px;
+  padding: 0.3rem 0;
+  font-size: 0.7rem;
+  cursor: pointer;
+  font-variant-numeric: tabular-nums;
+}
+
+.bDice:hover {
+  background: rgba(246, 235, 212, 0.16);
+}
+
+.bChart {
+  display: grid;
+  grid-template-columns: repeat(11, 1fr);
+  gap: 3px;
+  align-items: end;
+  height: 78px;
+}
+
+.bChartCol {
+  position: relative;
+  height: 100%;
+  display: flex;
+  align-items: flex-end;
+}
+
+.bChartExpected {
+  position: absolute;
+  left: 0;
+  right: 0;
+  border-top: 1px dashed rgba(227, 168, 43, 0.65);
+}
+
+.bChartFill {
+  width: 100%;
+  background: var(--gold);
+  border-radius: 2px 2px 0 0;
+  min-height: 2px;
+  transition: height 0.2s ease;
+}
+
+.bTrackerFoot {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.72rem;
+  color: rgba(246, 235, 212, 0.55);
+}
+
+.bReset {
+  background: none;
+  border: 0;
+  color: rgba(246, 235, 212, 0.55);
+  text-decoration: underline;
+  cursor: pointer;
+  font-size: 0.72rem;
+}
+
+/* ============================================================
+   DIRECTION C — "Harbor"
+   Bright, chunky, thumb-first. Built for a phone at the table.
+   ============================================================ */
+
+.c {
+  --sea: #0e6ba8;
+  --deep: #08304b;
+  --sky: #e3f2fb;
+  --coral: #ff6b4a;
+  --sun: #ffc542;
+
+  background: var(--sky);
+  color: var(--deep);
+  min-height: 780px;
+  position: relative;
+  overflow: hidden;
+}
+
+.cTop {
+  background: linear-gradient(170deg, var(--sea), var(--deep));
+  color: #fff;
+  padding: 2.25rem 2.25rem 4.5rem;
+  position: relative;
+}
+
+.cNav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 2rem;
+}
+
+.cLogo {
+  font-weight: 700;
+  font-size: 1.15rem;
+  letter-spacing: -0.01em;
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.cLogoMark {
+  width: 26px;
+  height: 26px;
+  border-radius: 8px;
+  background: var(--sun);
+  display: grid;
+  place-items: center;
+  color: var(--deep);
+  font-size: 0.85rem;
+}
+
+.cNavLinks {
+  display: flex;
+  gap: 1.4rem;
+  font-size: 0.88rem;
+  opacity: 0.85;
+}
+
+.cHeadline {
+  max-width: 24ch;
+  font-size: clamp(2.2rem, 4vw, 3.4rem);
+  line-height: 1.02;
+  letter-spacing: -0.02em;
+  font-weight: 600;
+}
+
+.cSub {
+  margin-top: 0.85rem;
+  max-width: 46ch;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.78);
+}
+
+.cWave {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  width: 100%;
+  height: 68px;
+  display: block;
+}
+
+.cBody {
+  padding: 0 2.25rem 2.5rem;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 330px;
+  gap: 2rem;
+  margin-top: -2.25rem;
+  position: relative;
+  z-index: 2;
+}
+
+.cCard {
+  background: #fff;
+  border-radius: 22px;
+  padding: 1.5rem;
+  box-shadow: 0 24px 48px -24px rgba(8, 48, 75, 0.45);
+}
+
+.cSeg {
+  display: flex;
+  background: var(--sky);
+  border-radius: 999px;
+  padding: 4px;
+  gap: 4px;
+  margin-bottom: 1rem;
+}
+
+.cSegBtn {
+  flex: 1;
+  border: 0;
+  background: transparent;
+  border-radius: 999px;
+  padding: 0.65rem;
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: var(--deep);
+  cursor: pointer;
+}
+
+.cSegOn {
+  background: var(--deep);
+  color: #fff;
+}
+
+.cBoardWrap {
+  max-width: 560px;
+  margin: 0 auto;
+}
+
+.cRail {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.cBig {
+  border: 0;
+  border-radius: 18px;
+  background: var(--coral);
+  color: #fff;
+  font-size: 1.25rem;
+  font-weight: 700;
+  padding: 1.15rem;
+  cursor: pointer;
+  box-shadow: 0 10px 0 #d24f31;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  transition: transform 0.08s ease, box-shadow 0.08s ease;
+}
+
+.cBig:active {
+  transform: translateY(6px);
+  box-shadow: 0 4px 0 #d24f31;
+}
+
+.cChart {
+  margin-top: 1.25rem;
+  border-top: 1px solid var(--sky);
+  padding-top: 1rem;
+  color: #b9d6e6;
+}
+
+.cCodeCard {
+  background: #fff;
+  border-radius: 18px;
+  padding: 1.15rem 1.25rem;
+  box-shadow: 0 18px 34px -22px rgba(8, 48, 75, 0.5);
+}
+
+.cCardLabel {
+  font-size: 0.7rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #6d8ea3;
+  margin-bottom: 0.6rem;
+}
+
+.cCode {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  background: var(--sky);
+  border-radius: 12px;
+  padding: 0.7rem 0.85rem;
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+}
+
+.cCopy {
+  border: 0;
+  background: var(--deep);
+  color: #fff;
+  border-radius: 8px;
+  padding: 0.35rem 0.7rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.cHint {
+  font-size: 0.78rem;
+  color: #5d7f94;
+  margin-top: 0.6rem;
+  line-height: 1.5;
+}
+
+.cTimer {
+  background: var(--deep);
+  color: #fff;
+  border-radius: 18px;
+  padding: 1.15rem 1.25rem;
+}
+
+.cTimerRow {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+}
+
+.cTimerNum {
+  font-size: 2.4rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
+}
+
+.cTimerBtn {
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  background: transparent;
+  color: #fff;
+  border-radius: 999px;
+  padding: 0.4rem 0.9rem;
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+
+.cPlayers {
+  display: flex;
+  gap: 0.4rem;
+  margin-top: 0.9rem;
+}
+
+.cPlayer {
+  flex: 1;
+  text-align: center;
+  border-radius: 10px;
+  padding: 0.45rem 0;
+  font-size: 0.78rem;
+  font-weight: 600;
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.cPlayerOn {
+  background: var(--sun);
+  color: var(--deep);
+}
+
+.cPhoneStrip {
+  display: flex;
+  align-items: center;
+  gap: 2.5rem;
+  padding: 0 2.25rem 2.75rem;
+  flex-wrap: wrap;
+}
+
+.cPhone {
+  width: 268px;
+  flex: none;
+  background: #0a2233;
+  border-radius: 34px;
+  padding: 10px;
+  box-shadow: 0 26px 50px -18px rgba(8, 48, 75, 0.55);
+}
+
+.cPhoneScreen {
+  background: var(--sky);
+  border-radius: 26px;
+  overflow: hidden;
+  padding: 0.85rem 0.75rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+
+.cPhoneBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--deep);
+}
+
+.cPhoneChip {
+  background: #fff;
+  border-radius: 999px;
+  padding: 0.15rem 0.5rem;
+  font-size: 0.62rem;
+  letter-spacing: 0.08em;
+}
+
+.cPhoneCta {
+  border: 0;
+  border-radius: 14px;
+  background: var(--coral);
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 700;
+  padding: 0.85rem;
+  box-shadow: 0 6px 0 #d24f31;
+}
+
+.cPhoneNote {
+  max-width: 38ch;
+}
+
+.cPhoneNote h3 {
+  font-size: 1.35rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  color: var(--deep);
+}
+
+.cPhoneNote p {
+  font-size: 0.95rem;
+  line-height: 1.65;
+  color: #3d6480;
+}
+
+/* ============================================================
+   DIRECTION D — "Almanac"
+   Content-first. The page answers questions, not just shuffles.
+   ============================================================ */
+
+.d {
+  --bg: #fbfaf7;
+  --ink: #16191c;
+  --rule: #ddddd4;
+  --accent: #2e5e4e;
+  --tint: #eef2ef;
+  --mute: #6a716f;
+
+  background: var(--bg);
+  color: var(--ink);
+  min-height: 800px;
+}
+
+.dBar {
+  border-bottom: 1px solid var(--rule);
+  padding: 0.85rem 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.86rem;
+}
+
+.dBarBrand {
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.dBarLinks {
+  display: flex;
+  gap: 1.3rem;
+  color: var(--mute);
+}
+
+.dGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 480px) minmax(0, 1fr);
+  gap: 3rem;
+  padding: 2.5rem 2rem 3rem;
+  align-items: stretch;
+}
+
+.dSticky {
+  position: sticky;
+  top: 4.75rem;
+}
+
+.dToolCard {
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  background: #fff;
+  padding: 1.25rem;
+}
+
+.dSeg {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.dSegBtn {
+  flex: 1;
+  border: 1px solid var(--rule);
+  background: #fff;
+  border-radius: 3px;
+  padding: 0.55rem;
+  font-size: 0.85rem;
+  cursor: pointer;
+  color: var(--ink);
+}
+
+.dSegOn {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+
+.dShuffle {
+  width: 100%;
+  border: 0;
+  border-radius: 3px;
+  background: var(--accent);
+  color: #fff;
+  padding: 0.8rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 1rem;
+}
+
+.dRules {
+  margin-top: 1rem;
+  display: grid;
+  gap: 0.45rem;
+}
+
+.dRule {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  font-size: 0.83rem;
+  color: var(--mute);
+}
+
+.dSwitch {
+  width: 30px;
+  height: 17px;
+  border-radius: 999px;
+  background: #cfd4d1;
+  position: relative;
+  flex: none;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.dSwitch::after {
+  content: "";
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 13px;
+  height: 13px;
+  border-radius: 999px;
+  background: #fff;
+  transition: transform 0.15s ease;
+}
+
+.dSwitchOn {
+  background: var(--accent);
+}
+
+.dSwitchOn::after {
+  transform: translateX(13px);
+}
+
+.dEyebrow {
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 0.8rem;
+}
+
+.dH1 {
+  font-family: var(--font-display, Georgia, serif);
+  font-size: clamp(2.1rem, 3.4vw, 3rem);
+  line-height: 1.08;
+  letter-spacing: -0.015em;
+  font-weight: 500;
+}
+
+.dAnswer {
+  border-left: 3px solid var(--accent);
+  background: var(--tint);
+  padding: 1.1rem 1.25rem;
+  margin: 1.4rem 0 1.8rem;
+  font-size: 1.02rem;
+  line-height: 1.6;
+}
+
+.dAnswer b {
+  font-weight: 600;
+}
+
+.dProse h2 {
+  font-family: var(--font-display, Georgia, serif);
+  font-size: 1.5rem;
+  font-weight: 500;
+  margin: 2.2rem 0 0.7rem;
+  letter-spacing: -0.01em;
+}
+
+.dProse h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 1.4rem 0 0.4rem;
+}
+
+.dProse p {
+  line-height: 1.7;
+  color: #33393c;
+  margin-bottom: 0.8rem;
+  max-width: 68ch;
+}
+
+.dOdds {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+  margin-top: 0.8rem;
+  max-width: 620px;
+}
+
+.dOdds th,
+.dOdds td {
+  text-align: left;
+  padding: 0.5rem 0.6rem;
+  border-bottom: 1px solid var(--rule);
+}
+
+.dOdds th {
+  font-size: 0.68rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--mute);
+  font-weight: 500;
+}
+
+.dOdds tbody tr:nth-child(odd) {
+  background: #fff;
+}
+
+.dOddsBar {
+  display: inline-block;
+  height: 7px;
+  background: var(--accent);
+  border-radius: 1px;
+  vertical-align: middle;
+}
+
+.dChart {
+  max-width: 420px;
+  margin: 1.1rem 0 0.4rem;
+  color: var(--rule);
+}
+
+.dFaq {
+  border-top: 1px solid var(--rule);
+  margin-top: 0.6rem;
+}
+
+.dFaqItem {
+  border-bottom: 1px solid var(--rule);
+  padding: 0.9rem 0;
+}
+
+.dFaqQ {
+  font-weight: 600;
+  font-size: 0.98rem;
+  margin-bottom: 0.35rem;
+}
+
+.dFaqA {
+  font-size: 0.9rem;
+  line-height: 1.65;
+  color: var(--mute);
+  max-width: 68ch;
+}
+
+.dChips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  margin-top: 1.4rem;
+}
+
+.dChip {
+  border: 1px solid var(--rule);
+  border-radius: 999px;
+  padding: 0.3rem 0.75rem;
+  font-size: 0.78rem;
+  color: var(--mute);
+  background: #fff;
+}
+
+/* ============================================================
+   Toolkit shortlist (below the four directions)
+   ============================================================ */
+
+.toolkit {
+  max-width: 1400px;
+  margin: 5rem auto 0;
+  padding: 0 1.5rem;
+}
+
+.toolGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1px;
+  background: #24292c;
+  border: 1px solid #24292c;
+  border-radius: 12px;
+  overflow: hidden;
+  margin-top: 1.5rem;
+}
+
+.toolCell {
+  background: #171b1d;
+  padding: 1.25rem;
+}
+
+.toolName {
+  font-weight: 600;
+  margin-bottom: 0.4rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.toolBadge {
+  font-size: 0.62rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  border-radius: 999px;
+  padding: 0.15rem 0.5rem;
+  border: 1px solid #3a4247;
+  color: #8f989e;
+}
+
+.toolBadgeHot {
+  border-color: #d4693f;
+  color: #d4693f;
+}
+
+.toolText {
+  font-size: 0.86rem;
+  line-height: 1.6;
+  color: #99a2a8;
+}
+
+/* ---------- responsive ---------- */
+
+@media (max-width: 1100px) {
+  .a,
+  .b,
+  .cBody,
+  .dGrid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .aRail,
+  .aReadout {
+    border: 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .bHeadline {
+    position: static;
+    margin-bottom: 1.5rem;
+  }
+
+  .dSticky {
+    position: static;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .page *,
+  .frame * {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

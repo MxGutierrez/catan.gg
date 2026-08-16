@@ -50,93 +50,20 @@
   box-sizing: border-box;
 }
 
-.tile {
-  box-shadow: -1px 10px 19px -7px rgba(0, 0, 0, 0.74);
-  -webkit-box-shadow: -1px 10px 19px -7px rgba(0, 0, 0, 0.74);
-  -moz-box-shadow: -1px 10px 19px -7px rgba(0, 0, 0, 0.74);
-}
-
 html,
 body {
-  font-family: "Euclid Circular", sans-serif;
-  height: 100vh;
-  height: calc(var(--vh, 1vh) * 100);
+  font-family: "Euclid Circular", ui-sans-serif, system-ui, sans-serif;
+  background: #1a1209;
+  -webkit-font-smoothing: antialiased;
 }
 
-.menuclosebutton {
-  position: absolute;
-  bottom: 5%;
-  left: 50%;
-  height: 40px;
-  width: 80%;
-  right: 50%;
-  transform: translate(-50%, 0%);
-  font-size: 20px;
+/* Every control keeps a visible focus ring, including keyboard users. */
+:focus-visible {
+  outline: 2px solid #c9a227;
+  outline-offset: 2px;
+  border-radius: 4px;
 }
 
-.menuToggle {
-  visibility: hidden;
-}
-
-.settingViewToggle {
-  visibility: hidden;
-}
-
-.settingswrap {
-  text-align: right;
-  position: relative;
-  width: 80%;
-  left: 10%;
-  height: 250px;
-}
-
-.mylabel {
-  float: left;
-}
-
-.menu-row {
-  height: 35px;
-}
-
-.mySelect {
-  height: 32px;
-
-  text-align: center;
-}
-
-.checkmark {
-  height: 25px;
-  position: absolute;
-  padding: 100px;
-}
-
-input[type="checkbox"] {
-  margin: 0;
-  font: inherit;
-  color: currentColor;
-  width: 22px;
-  height: 22px;
-  border: 3px solid currentColor;
-}
-
-#popmenu {
-  width: 350px;
-  height: 350px;
-  text-align: center;
-  background: #e3c586;
-  position: absolute;
-  left: 50%;
-  transform: translate(-50%, 0);
-  top: 15.5%;
-  text-align: center;
-  font-size: 1.2rem;
-  box-shadow: 0 2px 15px 0 black;
-  z-index: 1;
-  border-radius: 10px;
-}
-
-#inline-options {
-  margin-top: 10px;
-  width: 100%;
-  position: relative;
+a {
+  color: inherit;
 }
