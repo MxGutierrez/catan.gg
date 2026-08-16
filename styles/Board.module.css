@@ -87,33 +87,42 @@
   color: #b91c1c;
 }
 
+/*
+ * The token is 6.82% of the board square across. The type inside it keeps
+ * the proportions the printed token uses: the number fills about 0.7 of the
+ * diameter, and the pips sit tight underneath on a short line box.
+ */
 .tokenNum {
   font-weight: 700;
-  font-size: 4.4cqw;
-  line-height: 0.8;
-  margin-top: 0.08em;
+  font-size: 4.75cqw;
+  line-height: 0.333;
+  margin-top: 0.5cqw;
 }
 
 .tokenNumWide {
-  font-size: 3.7cqw;
+  font-size: 3.95cqw;
 }
 
+/* The pips are dots, not full stops in a serif face. Euclid draws a round
+   dot with even spacing, which is what the printed token shows. */
 .tokenPips {
-  font-size: 3.1cqw;
-  line-height: 0.42;
-  letter-spacing: 0.02em;
+  font-family: "Euclid Circular", ui-sans-serif, system-ui, sans-serif;
+  font-size: 3.4cqw;
+  line-height: 0.47;
+  letter-spacing: normal;
 }
 
 .tileExpanded .tokenNum {
-  font-size: 4cqw;
+  font-size: 4.4cqw;
+  margin-top: 0.46cqw;
 }
 
 .tileExpanded .tokenNumWide {
-  font-size: 3.4cqw;
+  font-size: 3.65cqw;
 }
 
 .tileExpanded .tokenPips {
-  font-size: 2.9cqw;
+  font-size: 3.15cqw;
 }
 
 /* ---------- resource chart ---------- */
