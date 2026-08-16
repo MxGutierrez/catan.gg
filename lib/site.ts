@@ -7,6 +7,14 @@ export const SITE = "https://catan.gg";
  */
 export const API = process.env.NEXT_PUBLIC_API_URL || "https://api.catan.gg";
 
+/**
+ * The Google Analytics measurement id. It is public by design: every site
+ * that runs GA shows it in the page source. Without a value the tag loaded
+ * as id=undefined, so nothing was ever recorded.
+ */
+export const GA_MEASUREMENT_ID =
+  process.env.NEXT_PUBLIC_GA_MEASUREMENT_KEY || "G-NTPG6QLCDG";
+
 export type PageMeta = {
   path: string;
   title: string;
