@@ -1,5 +1,12 @@
 export const SITE = "https://catan.gg";
 
+/**
+ * The feedback endpoint. The host is fixed by the CloudFormation template,
+ * so it is set here rather than in an env file. Without a value, Next inlines
+ * the literal string "undefined" and the request goes to /undefined/feedback.
+ */
+export const API = process.env.NEXT_PUBLIC_API_URL || "https://api.catan.gg";
+
 export type PageMeta = {
   path: string;
   title: string;

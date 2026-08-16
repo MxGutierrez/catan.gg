@@ -6,6 +6,7 @@ import { HiX } from "react-icons/hi";
 import { FaRegStar, FaStar } from "react-icons/fa";
 import { RiSendPlaneFill } from "react-icons/ri";
 import Button from "@/components/Button";
+import { API } from "@/lib/site";
 
 interface Props {
   open: boolean;
@@ -16,21 +17,36 @@ export default function FeedbackModal({ open, onClose }: Props) {
   const [rating, setRating] = useState<number | null>(null);
   const [message, setMessage] = useState("");
   const [ratingError, setRatingError] = useState<string | null>(null);
+  const [sendError, setSendError] = useState<string | null>(null);
+  const [sending, setSending] = useState(false);
   const [sent, setSent] = useState(false);
 
-  const send = () => {
+  // The old version set sent before the request answered, so a failed send
+  // still thanked the reader.
+  const send = async () => {
     if (!rating) {
       setRatingError("Please select a rating");
       return;
     }
 
-    fetch(`${process.env.NEXT_PUBLIC_API_URL}/feedback`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ rating, message }),
-    }).catch(() => undefined);
+    setRatingError(null);
+    setSendError(null);
+    setSending(true);
 
-    setSent(true);
+    try {
+      const response = await fetch(`${API}/feedback`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ rating, message }),
+      });
+
+      if (!response.ok) throw new Error(String(response.status));
+      setSent(true);
+    } catch {
+      setSendError("That did not send. Please try again.");
+    } finally {
+      setSending(false);
+    }
   };
 
   const close = () => {
@@ -38,6 +54,7 @@ export default function FeedbackModal({ open, onClose }: Props) {
     setRating(null);
     setMessage("");
     setRatingError(null);
+    setSendError(null);
     setSent(false);
   };
 
@@ -94,9 +111,12 @@ export default function FeedbackModal({ open, onClose }: Props) {
 
         <div className="w-full flex items-center text-sm justify-end space-x-3 mt-4">
           {sent && <span>Message sent, thank you.</span>}
+          {sendError && <span className="text-red-400">{sendError}</span>}
           <Button
             onClick={send}
-            disabled={sent}
+            disabled={sent || sending}
+            loading={sending}
+            loadingText="Sending"
             className={clsx(
               "flex items-center justify-center space-x-2 !bg-[#c9a227] !text-[#1a1209] font-semibold",
               { "!bg-green-600 !text-white": sent }
