@@ -15,6 +15,7 @@ interface BoardProps {
   mode: Mode;
 }
 
+/** The sea frame is the largest paint on the page, so it loads first. */
 export default function Board({ board, offsets, mode }: BoardProps) {
   if (!board.length || !offsets.length) return <div className={s.board} />;
 
@@ -31,6 +32,7 @@ export default function Board({ board, offsets, mode }: BoardProps) {
             srcSet="/images/background-1x.png 1x, /images/background-2x.png 2x"
             alt=""
             aria-hidden="true"
+            {...{ fetchpriority: "high" }}
           />
         </picture>
       )}
