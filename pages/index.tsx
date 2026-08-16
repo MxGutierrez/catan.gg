@@ -238,6 +238,35 @@ export default function Home() {
               </p>
             </div>
 
+            <div className={s.rail}>
+              <div className={s.seg} role="group" aria-label="Board size">
+                <button
+                  type="button"
+                  className={clsx(s.segBtn, mode === "normal" && s.segOn)}
+                  aria-pressed={mode === "normal"}
+                  onClick={() => setMode("normal")}
+                >
+                  Classic
+                </button>
+                <button
+                  type="button"
+                  className={clsx(s.segBtn, mode === "expanded" && s.segOn)}
+                  aria-pressed={mode === "expanded"}
+                  onClick={() => setMode("expanded")}
+                >
+                  Expansion
+                </button>
+              </div>
+
+              <button
+                type="button"
+                className={s.shuffle}
+                onClick={() => setDraws((n) => n + 1)}
+              >
+                Shuffle
+              </button>
+            </div>
+
             <div className={s.slips}>
               <aside className={clsx(s.slip, s.slipLeft)}>
                 <h2 className={s.slipTitle}>Setup rules</h2>
@@ -273,34 +302,6 @@ export default function Home() {
             </div>
           </div>
 
-          <div className={s.rail}>
-            <div className={s.seg} role="group" aria-label="Board size">
-              <button
-                type="button"
-                className={clsx(s.segBtn, mode === "normal" && s.segOn)}
-                aria-pressed={mode === "normal"}
-                onClick={() => setMode("normal")}
-              >
-                Classic
-              </button>
-              <button
-                type="button"
-                className={clsx(s.segBtn, mode === "expanded" && s.segOn)}
-                aria-pressed={mode === "expanded"}
-                onClick={() => setMode("expanded")}
-              >
-                Expansion
-              </button>
-            </div>
-
-            <button
-              type="button"
-              className={s.shuffle}
-              onClick={() => setDraws((n) => n + 1)}
-            >
-              Shuffle
-            </button>
-          </div>
         </main>
 
         <div className={s.sheet}>

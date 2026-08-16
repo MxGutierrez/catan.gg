@@ -22,12 +22,15 @@
 
 .table {
   position: relative;
-  min-height: 100vh;
-  min-height: 100svh;
+  /* Fixed, not a minimum. The control rail is the last thing in the flow,
+     so it can only stay on the first screen if the table cannot grow. */
+  height: 100vh;
+  height: 100svh;
+  min-height: 30rem;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 1.4rem 1.5rem 8.5rem;
+  padding: 1.4rem 1.5rem 1.5rem;
   background: radial-gradient(
       82% 66% at 46% 40%,
       #5f4326 0%,
@@ -87,15 +90,23 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 1rem;
+  gap: 0.85rem;
   min-height: 0;
+}
+
+/* The slips lie on the table, so they take no room in the column. */
+.slips {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
 }
 
 /* A layout box with the art's shape. The square board floats over it, so the
    transparent band above and below the art costs no space. */
 .boardSlot {
   position: relative;
-  width: min(100%, calc((100vh - 16rem) / 0.866025404));
+  /* The subtracted height covers the header, the caption and the rail. */
+  width: min(100%, calc((100svh - 16.5rem) / 0.866025404));
   max-width: 680px;
   aspect-ratio: 1 / 0.866025404;
 }
@@ -227,11 +238,9 @@
 /* ---------- the control rail ---------- */
 
 .rail {
-  position: absolute;
+  position: relative;
   z-index: 4;
-  bottom: 1.6rem;
-  left: 50%;
-  transform: translateX(-50%);
+  pointer-events: auto;
   display: flex;
   align-items: stretch;
   gap: 0.5rem;
@@ -494,7 +503,14 @@
 
 @media (max-width: 1080px) {
   .table {
+    height: auto;
+    min-height: 0;
     padding-bottom: 2rem;
+  }
+
+  .slips {
+    position: static;
+    pointer-events: auto;
   }
 
   .slip,
@@ -518,17 +534,14 @@
   }
 
   .rail {
-    position: sticky;
-    bottom: 1rem;
-    left: auto;
-    transform: none;
-    margin: 1.25rem auto 0;
     width: max-content;
     max-width: 100%;
   }
 
+  /* The board still gives way to the header, the caption and the rail, so
+     the rail stays on the first screen on a short window as well. */
   .boardSlot {
-    width: min(100%, 560px);
+    width: min(100%, 560px, calc((100svh - 16.5rem) / 0.866025404));
   }
 }
 
